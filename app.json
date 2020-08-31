@@ -57,12 +57,10 @@
             "required": false
         },
         "HEROKU_APP_NAME": {
-            "description": "given app name to the heroku app",
-            "required": True
+            "description": "given app name to the heroku app"
         },
         "HEROKU_API_KEY": {
-            "description": "get a Heroku API key from http://dashboard.heroku.com/account",
-            "required": True
+            "description": "get a Heroku API key from http://dashboard.heroku.com/account"
         },
         "UPSTREAM_REPO": {
             "description": "set this to your USERGE fork on GitHub",
