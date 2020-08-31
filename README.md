@@ -18,7 +18,7 @@
     <a href="https://github.com/X-Newbie/X-Userge#copyright--license-">Copyright & License</a>
 </p>
 
-# X-Userge 🔥
+<p align="center"><b>🔥 X-Userge 🔥</b></p>
 
 [![Build Status](https://travis-ci.com/UsergeTeam/Userge.svg?branch=dev)](https://travis-ci.com/UsergeTeam/Userge) ![Python Version](https://img.shields.io/badge/python-3.8-lightgrey) ![Release](https://img.shields.io/github/v/release/UsergeTeam/Userge) ![Stars](https://img.shields.io/github/stars/UsergeTeam/Userge) ![Forks](https://img.shields.io/github/forks/UsergeTeam/Userge) ![Issues Open](https://img.shields.io/github/issues/UsergeTeam/Userge) ![Issues Closed](https://img.shields.io/github/issues-closed/UsergeTeam/Userge) ![PR Open](https://img.shields.io/github/issues-pr/UsergeTeam/Userge) ![PR Closed](https://img.shields.io/github/issues-pr-closed/UsergeTeam/Userge) ![Contributors](https://img.shields.io/github/contributors/UsergeTeam/Userge) ![Repo Size](https://img.shields.io/github/repo-size/UsergeTeam/Userge) ![License](https://img.shields.io/github/license/UsergeTeam/Userge) ![Commit Activity](https://img.shields.io/github/commit-activity/m/UsergeTeam/Userge) [![Plugins Repo!](https://img.shields.io/badge/Plugins%20Repo-!-orange)](https://github.com/UsergeTeam/Userge-Plugins) [![Join Channel!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/theUserge) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/UsergeTeam/Userge/?ref=repository-badge)
 
@@ -97,7 +97,7 @@ async def testing(message: Message):
 
   > Finally turn on the app and check the logs (settings -> view logs) :)
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/X-Newbie/X-Userge/tree/master)
+<p align="center"><a href="https://heroku.com/deploy?template=https://github.com/X-Newbie/X-Userge/tree/master"> <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" /></a></p>
 
 * **Other Method** 🔧
 
@@ -130,7 +130,7 @@ async def testing(message: Message):
 ## Generate String Session
 Easy way to generate string session on Repl.it:
 
-<p align="center"><a href="http://string.projectdils.repl.run"> <img src="https://telegra.ph/file/7193be9fb5f9caa50bae8.png" alt="Generate String Session" /></a></p>
+<p align="center"><a href="https://GenUserGeString.usergeuserbot.repl.run"> <img src="https://telegra.ph/file/7193be9fb5f9caa50bae8.png" alt="Generate String Session" /></a></p>
 
 
 ### Video Tutorial 🎥
