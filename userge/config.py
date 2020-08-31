@@ -65,7 +65,7 @@ class Config:
     LOAD_UNOFFICIAL_PLUGINS = os.environ.get("LOAD_UNOFFICIAL_PLUGINS") == "true"
     THUMB_PATH = DOWN_PATH + "thumb_image.jpg"
     TMP_PATH = "userge/plugins/temp/"
-    MAX_MESSAGE_LENGTH = 4096
+    MAX_MESSAGE_LENGTH = 6096
     MSG_DELETE_TIMEOUT = 120
     WELCOME_DELETE_TIMEOUT = 120
     EDIT_SLEEP_TIMEOUT = 10
