@@ -23,17 +23,17 @@ async def alive(message: Message):
     output = f"""X-USERGE is running..\n
 **⌚ uptime** : `{userge.uptime}`
 **🛠️ version** : `{get_version()}`
-\n╭━━━━━━━━━━━━━━━━━━╮
-┣[• **sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
-┣[• **anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
-┣[• **dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`"""
+\n╭━━━━━━━━━━━━━━━━╮
+┣[• **sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`🔥
+┣[• **anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`🔥
+┣[• **dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`🔥"""
     if Config.HEROKU_APP:
-        output += f"\n• **dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
+        output += f"\n┣[• **dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`🔥"
     output += f"""
-┣[• **unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
-\n╰━━━━━━━━━━━━━━━━━━╯
-    **__Python__**: `{versions.__python_version__}`
-    **__Pyrogram__**: `{versions.__pyro_version__}`
+┣[• **unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}🔥`
+╰━━━━━━━━━━━━━━━━╯
+   ⚙️**__Python__**: `{versions.__python_version__}`
+   ⚙️**__Pyrogram__**: `{versions.__pyro_version__}`
 \n▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱
 **{versions.__license__}** | **{versions.__copyright__}** | **[Repo]({Config.UPSTREAM_REPO})**
 """
