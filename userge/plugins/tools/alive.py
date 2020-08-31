@@ -20,10 +20,10 @@ LOGO_ID, LOGO_REF = None, None
     'header': "This command is just for fun"}, allow_channels=False)
 async def alive(message: Message):
     await message.delete()
-    output = f"""
+    output = f"""╭━━━━━━━━━━━━━━━━━━╮\n
 **⌚ uptime** : `{userge.uptime}`
 **🛠️ version** : `{get_version()}`
-
+\n╰━━━━━━━━━━━━━━━━━━╯
 • **sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
 • **anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
 • **dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`"""
