@@ -26,15 +26,15 @@ X-USERGE is running..
 **⌚ uptime** : `{userge.uptime}`
 **🛠 version** : `{get_version()}`
 
-╭━━━━━━━━━━━━━━━━━━━━━╮
-**┣[sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
-**┣[anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
-**┣[dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`
+╭━━━━━━━━━━━━━━━━━━━━━╮\n
+**sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
+**anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
+**dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`
 ╰━━━━━━━━━━━━━━━━━━━━━╯"""
     if Config.HEROKU_APP:
-        output += f"\n**┣[dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
+        output += f"\n**dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
     output += f"""
-**┣[unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
+**unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
 
     **__Python__**: `{versions.__python_version__}`
     **__Pyrogram__**: `{versions.__pyro_version__}`
