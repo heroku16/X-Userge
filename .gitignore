@@ -102,6 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+env/
 .env
 .venv
 env/
@@ -127,3 +128,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# config files
+.apt/
+.heroku/
+.profile.d/
+vendor/
+config.ini
+config.env
+.vscode/
+*.session
+log.txt
+unknown_errors.txt
+logs/
+bin/
+resources/base_profile_pic.jpg
+resources/mdfy_profile_pic.jpg
+pictest.py
+resources/MutantAcademyBB.ttf
