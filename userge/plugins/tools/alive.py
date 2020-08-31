@@ -20,21 +20,21 @@ LOGO_ID, LOGO_REF = None, None
     'header': "This command is just for fun"}, allow_channels=False)
 async def alive(message: Message):
     await message.delete()
-    output = f"""╭━━━━━━━━━━━━━━━━━━╮\n
+    output = f"""X-USERGE is running..\n
 **⌚ uptime** : `{userge.uptime}`
 **🛠️ version** : `{get_version()}`
-\n╰━━━━━━━━━━━━━━━━━━╯
-• **sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
-• **anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
-• **dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`"""
+\n╭━━━━━━━━━━━━━━━━━━╮
+┣[• **sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
+┣[• **anti-spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`
+┣[• **dual-mode**: `{_parse_arg(RawClient.DUAL_MODE)}`"""
     if Config.HEROKU_APP:
         output += f"\n• **dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
     output += f"""
-• **unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
-
+┣[• **unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
+\n╰━━━━━━━━━━━━━━━━━━╯
     **__Python__**: `{versions.__python_version__}`
     **__Pyrogram__**: `{versions.__pyro_version__}`
-
+\n▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱
 **{versions.__license__}** | **{versions.__copyright__}** | **[Repo]({Config.UPSTREAM_REPO})**
 """
     try:
