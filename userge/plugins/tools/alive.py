@@ -36,8 +36,6 @@ X-USERGE is running..
     output += f"""
 **┣[unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
 
-╰━━━━━━━━━━━━━━━━━━━━━╯
-
     **__Python__**: `{versions.__python_version__}`
     **__Pyrogram__**: `{versions.__pyro_version__}`
 
