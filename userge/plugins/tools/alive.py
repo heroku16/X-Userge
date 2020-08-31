@@ -21,6 +21,7 @@ LOGO_ID, LOGO_REF = None, None
 async def alive(message: Message):
     await message.delete()
     output = f"""X-USERGE is running..\n
+▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱\n
 **⌚ uptime** : `{userge.uptime}`
 **🛠️ version** : `{get_version()}`
 \n╭━━━━━━━━━━━━━━━━╮
@@ -31,9 +32,9 @@ async def alive(message: Message):
         output += f"\n┣[• **dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`🔥"
     output += f"""
 ┣[• **unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}🔥`
-╰━━━━━━━━━━━━━━━━╯
-   ⚙️**__Python__**: `{versions.__python_version__}`
-   ⚙️**__Pyrogram__**: `{versions.__pyro_version__}`
+╰━━━━━━━━━━━━━━━━╯\n
+  ⚙️**__Python__**: `{versions.__python_version__}`
+  ⚙️**__Pyrogram__**: `{versions.__pyro_version__}`
 \n▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱
 **{versions.__license__}** | **{versions.__copyright__}** | **[Repo]({Config.UPSTREAM_REPO})**
 """
