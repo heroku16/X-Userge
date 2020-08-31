@@ -67,7 +67,7 @@ async def helpme(message: Message) -> None:  # pylint: disable=missing-function-
 📘 <b>Doc:</b>  <code>{plugins[key].doc}</code>\n━─━─━─━─━─━─━─━─━─━─━\n"""
             for i, cmd in enumerate(commands, start=1):
                 out_str += (f"╭━━━━━━━━━━━━━━━━━━━━╮\n    🤖 <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
-                            f"    📚 <b>info:</b>  <i>{cmd.doc}</i>╰━━━━━━━━━━━━━━━━━━━━╯\n\n")
+                            f"    📚 <b>info:</b>  <i>{cmd.doc}</i>\n╰━━━━━━━━━━━━━━━━━━━━╯\n")
             out_str += f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
         else:
             commands = userge.manager.enabled_commands
