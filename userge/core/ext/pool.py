@@ -16,9 +16,9 @@ from typing import Any, Callable, List
 from concurrent.futures import ThreadPoolExecutor, Future
 from functools import wraps, partial
 
-from userge import logging
+from userge import logging, Config
 
-_WORKERS = min(32, os.cpu_count() + 4)
+_WORKERS = Config.WORKERS
 _THREAD_POOL: ThreadPoolExecutor
 _ASYNC_QUEUE = asyncio.Queue()
 _TASKS: List[asyncio.Task] = []
