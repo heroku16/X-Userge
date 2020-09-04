@@ -10,7 +10,6 @@
 
 __all__ = ['submit_task', 'submit_thread', 'run_in_thread']
 
-import os
 import asyncio
 from typing import Any, Callable, List
 from concurrent.futures import ThreadPoolExecutor, Future
