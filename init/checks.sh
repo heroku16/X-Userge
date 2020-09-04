@@ -143,16 +143,16 @@ _checkUnoffPlugins() {
     if test $LOAD_UNOFFICIAL_PLUGINS = true; then
         editLastMessage "\tLoading UnOfficial Plugins ..."
         replyLastMessage "\t\tClonning ..."
-        gitClone --depth=1 https://github.com/UsergeTeam/Userge-Plugins.git
+        gitClone --depth=1 https://github.com/X-Newbie/X-Userge-Plugins.git
         editLastMessage "\t\tUpgrading PIP ..."
         upgradePip
         editLastMessage "\t\tInstalling Requirements ..."
-        installReq Userge-Plugins
+        installReq X-Userge-Plugins
         editLastMessage "\t\tCleaning ..."
         rm -rf userge/plugins/unofficial/
-        mv Userge-Plugins/plugins/ userge/plugins/unofficial/
-        cp -r Userge-Plugins/resources/* resources/
-        rm -rf Userge-Plugins/
+        mv X-Userge-Plugins/plugins/ userge/plugins/unofficial/
+        cp -r X-Userge-Plugins/resources/* resources/
+        rm -rf X-Userge-Plugins/
         deleteLastMessage
         editLastMessage "\tUnOfficial Plugins Loaded Successfully !"
     else
