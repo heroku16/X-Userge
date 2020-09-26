@@ -23,7 +23,12 @@ _LOG_STR = "<<<!  [[[[[  %s  ]]]]]  !>>>"
 
 class Plugin:
     """ plugin class """
-    def __init__(self, client: '_client.Userge', name: str, parent: str) -> None:
+
+    def __init__(
+            self,
+            client: '_client.Userge',
+            name: str,
+            parent: str) -> None:
         self._client = client
         self.name = name
         self.parent = parent

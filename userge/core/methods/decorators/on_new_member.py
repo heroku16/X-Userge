@@ -17,12 +17,13 @@ from . import RawDecorator
 
 
 class OnNewMember(RawDecorator):  # pylint: disable=missing-class-docstring
-    def on_new_member(self,
-                      welcome_chats: RawFilter,
-                      group: int = -2,
-                      allow_via_bot: bool = True,
-                      check_client: bool = True,
-                      check_downpath: bool = False) -> RawDecorator._PYRORETTYPE:
+    def on_new_member(
+            self,
+            welcome_chats: RawFilter,
+            group: int = -2,
+            allow_via_bot: bool = True,
+            check_client: bool = True,
+            check_downpath: bool = False) -> RawDecorator._PYRORETTYPE:
         """\nDecorator for handling new members
 
         Parameters:

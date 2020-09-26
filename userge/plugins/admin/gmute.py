@@ -158,7 +158,8 @@ async def list_gmuted(msg: Message):
         f"**--Globally Muted Users List--**\n\n{users}" if users else "`Gmute List is Empty`")
 
 
-@userge.on_filters(filters.group & filters.new_chat_members, group=1, check_restrict_perm=True)
+@userge.on_filters(filters.group & filters.new_chat_members,
+                   group=1, check_restrict_perm=True)
 async def gmute_at_entry(msg: Message):
     """ handle gmute """
     chat_id = msg.chat.id

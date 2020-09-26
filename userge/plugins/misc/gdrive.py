@@ -99,6 +99,7 @@ def creds_dec(func):
 
 class _GDrive:
     """ GDrive Class For Search, Upload, Download, Copy, Move, Delete, EmptyTrash, ... """
+
     def __init__(self) -> None:
         self._parent_id = _PARENT_ID or Config.G_DRIVE_PARENT_ID
         self._completed = 0
@@ -137,21 +138,25 @@ class _GDrive:
         results = []
         msg = ""
         while True:
-            response = self._service.files().list(supportsTeamDrives=True,
-                                                  includeTeamDriveItems=True,
-                                                  q=query, spaces='drive',
-                                                  corpora='allDrives', fields=fields,
-                                                  pageSize=page_size,
-                                                  orderBy='modifiedTime desc',
-                                                  pageToken=page_token).execute()
+            response = self._service.files().list(
+                supportsTeamDrives=True,
+                includeTeamDriveItems=True,
+                q=query,
+                spaces='drive',
+                corpora='allDrives',
+                fields=fields,
+                pageSize=page_size,
+                orderBy='modifiedTime desc',
+                pageToken=page_token).execute()
             for file_ in response.get('files', []):
                 if len(results) >= limit:
                     break
                 if file_.get('mimeType') == G_DRIVE_DIR_MIME_TYPE:
-                    msg += G_DRIVE_FOLDER_LINK.format(file_.get('id'), file_.get('name'))
+                    msg += G_DRIVE_FOLDER_LINK.format(
+                        file_.get('id'), file_.get('name'))
                 else:
-                    msg += G_DRIVE_FILE_LINK.format(
-                        file_.get('id'), file_.get('name'), humanbytes(int(file_.get('size', 0))))
+                    msg += G_DRIVE_FILE_LINK.format(file_.get('id'), file_.get(
+                        'name'), humanbytes(int(file_.get('size', 0))))
                 msg += '\n'
                 results.append(file_)
             if len(results) >= limit:
@@ -174,7 +179,10 @@ class _GDrive:
         permissions = {'role': 'reader', 'type': 'anyone'}
         self._service.permissions().create(fileId=file_id, body=permissions,
                                            supportsTeamDrives=True).execute()
-        _LOG.info("Set Permission : %s for Google-Drive File : %s", permissions, file_id)
+        _LOG.info(
+            "Set Permission : %s for Google-Drive File : %s",
+            permissions,
+            file_id)
 
     def _get_file_path(self, file_id: str, file_name: str) -> str:
         tmp_path = [file_name]
@@ -191,7 +199,9 @@ class _GDrive:
 
     def _get_output(self, file_id: str) -> str:
         file_ = self._service.files().get(
-            fileId=file_id, fields="id, name, size, mimeType", supportsTeamDrives=True).execute()
+            fileId=file_id,
+            fields="id, name, size, mimeType",
+            supportsTeamDrives=True).execute()
         file_id = file_.get('id')
         file_name = file_.get('name')
         file_size = humanbytes(int(file_.get('size', 0)))
@@ -215,19 +225,26 @@ class _GDrive:
         mime_type = guess_type(file_path)[0] or "text/plain"
         file_name = os.path.basename(file_path)
         file_size = os.path.getsize(file_path)
-        body = {"name": file_name, "mimeType": mime_type, "description": "Uploaded using Userge"}
+        body = {
+            "name": file_name,
+            "mimeType": mime_type,
+            "description": "Uploaded using Userge"}
         if parent_id:
             body["parents"] = [parent_id]
         if file_size == 0:
-            media_body = MediaFileUpload(file_path, mimetype=mime_type, resumable=False)
-            u_file_obj = self._service.files().create(body=body, media_body=media_body,
-                                                      supportsTeamDrives=True).execute()
+            media_body = MediaFileUpload(
+                file_path, mimetype=mime_type, resumable=False)
+            u_file_obj = self._service.files().create(
+                body=body, media_body=media_body, supportsTeamDrives=True).execute()
             file_id = u_file_obj.get("id")
         else:
-            media_body = MediaFileUpload(file_path, mimetype=mime_type,
-                                         chunksize=50*1024*1024, resumable=True)
-            u_file_obj = self._service.files().create(body=body, media_body=media_body,
-                                                      supportsTeamDrives=True)
+            media_body = MediaFileUpload(
+                file_path,
+                mimetype=mime_type,
+                chunksize=50 * 1024 * 1024,
+                resumable=True)
+            u_file_obj = self._service.files().create(
+                body=body, media_body=media_body, supportsTeamDrives=True)
             c_time = time.time()
             response = None
             while response is None:
@@ -268,7 +285,10 @@ class _GDrive:
             self._set_permission(file_id)
         self._completed += 1
         _LOG.info(
-            "Created Google-Drive File => Name: %s ID: %s Size: %s", file_name, file_id, file_size)
+            "Created Google-Drive File => Name: %s ID: %s Size: %s",
+            file_name,
+            file_id,
+            file_size)
         return file_id
 
     def _create_drive_dir(self, dir_name: str, parent_id: str) -> str:
@@ -277,13 +297,17 @@ class _GDrive:
         body = {"name": dir_name, "mimeType": G_DRIVE_DIR_MIME_TYPE}
         if parent_id:
             body["parents"] = [parent_id]
-        file_ = self._service.files().create(body=body, supportsTeamDrives=True).execute()
+        file_ = self._service.files().create(
+            body=body, supportsTeamDrives=True).execute()
         file_id = file_.get("id")
         file_name = file_.get("name")
         if not Config.G_DRIVE_IS_TD:
             self._set_permission(file_id)
         self._completed += 1
-        _LOG.info("Created Google-Drive Folder => Name: %s ID: %s ", file_name, file_id)
+        _LOG.info(
+            "Created Google-Drive Folder => Name: %s ID: %s ",
+            file_name,
+            file_id)
         return file_id
 
     def _upload_dir(self, input_directory: str, parent_id: str) -> str:
@@ -322,9 +346,11 @@ class _GDrive:
             self._finish()
 
     def _download_file(self, path: str, name: str, **kwargs) -> None:
-        request = self._service.files().get_media(fileId=kwargs['id'], supportsTeamDrives=True)
+        request = self._service.files().get_media(
+            fileId=kwargs['id'], supportsTeamDrives=True)
         with io.FileIO(os.path.join(path, name), 'wb') as d_f:
-            d_file_obj = MediaIoBaseDownload(d_f, request, chunksize=50*1024*1024)
+            d_file_obj = MediaIoBaseDownload(
+                d_f, request, chunksize=50 * 1024 * 1024)
             c_time = time.time()
             done = False
             while done is False:
@@ -362,7 +388,9 @@ class _GDrive:
                         time_formatter(eta))
         self._completed += 1
         _LOG.info(
-            "Downloaded Google-Drive File => Name: %s ID: %s", name, kwargs['id'])
+            "Downloaded Google-Drive File => Name: %s ID: %s",
+            name,
+            kwargs['id'])
 
     def _list_drive_dir(self, file_id: str) -> list:
         query = f"'{file_id}' in parents and (name contains '*')"
@@ -371,12 +399,16 @@ class _GDrive:
         page_size = 100
         files = []
         while True:
-            response = self._service.files().list(supportsTeamDrives=True,
-                                                  includeTeamDriveItems=True,
-                                                  q=query, spaces='drive',
-                                                  fields=fields, pageToken=page_token,
-                                                  pageSize=page_size, corpora='allDrives',
-                                                  orderBy='folder, name').execute()
+            response = self._service.files().list(
+                supportsTeamDrives=True,
+                includeTeamDriveItems=True,
+                q=query,
+                spaces='drive',
+                fields=fields,
+                pageToken=page_token,
+                pageSize=page_size,
+                corpora='allDrives',
+                orderBy='folder, name').execute()
             files.extend(response.get('files', []))
             page_token = response.get('nextPageToken', None)
             if page_token is None:
@@ -409,10 +441,13 @@ class _GDrive:
 
     def _download(self, file_id: str) -> None:
         try:
-            drive_file = self._service.files().get(fileId=file_id, fields="id, name, mimeType",
-                                                   supportsTeamDrives=True).execute()
+            drive_file = self._service.files().get(
+                fileId=file_id,
+                fields="id, name, mimeType",
+                supportsTeamDrives=True).execute()
             if drive_file['mimeType'] == G_DRIVE_DIR_MIME_TYPE:
-                path = self._create_server_dir(Config.DOWN_PATH, drive_file['name'])
+                path = self._create_server_dir(
+                    Config.DOWN_PATH, drive_file['name'])
                 self._download_dir(path, **drive_file)
             else:
                 self._download_file(Config.DOWN_PATH, **drive_file)
@@ -448,7 +483,9 @@ class _GDrive:
             self._list)
         self._completed += 1
         _LOG.info(
-            "Copied Google-Drive File => Name: %s ID: %s", drive_file['name'], drive_file['id'])
+            "Copied Google-Drive File => Name: %s ID: %s",
+            drive_file['name'],
+            drive_file['id'])
         return drive_file['id']
 
     def _copy_dir(self, file_id: str, parent_id: str) -> str:
@@ -472,9 +509,12 @@ class _GDrive:
     def _copy(self, file_id: str) -> None:
         try:
             drive_file = self._service.files().get(
-                fileId=file_id, fields="name, mimeType", supportsTeamDrives=True).execute()
+                fileId=file_id,
+                fields="name, mimeType",
+                supportsTeamDrives=True).execute()
             if drive_file['mimeType'] == G_DRIVE_DIR_MIME_TYPE:
-                dir_id = self._create_drive_dir(drive_file['name'], self._parent_id)
+                dir_id = self._create_drive_dir(
+                    drive_file['name'], self._parent_id)
                 self._copy_dir(file_id, dir_id)
                 ret_id = dir_id
             else:
@@ -493,23 +533,31 @@ class _GDrive:
         body = {"name": folder_name, "mimeType": G_DRIVE_DIR_MIME_TYPE}
         if parent_id:
             body["parents"] = [parent_id]
-        file_ = self._service.files().create(body=body, supportsTeamDrives=True).execute()
+        file_ = self._service.files().create(
+            body=body, supportsTeamDrives=True).execute()
         file_id = file_.get("id")
         file_name = file_.get("name")
         if not Config.G_DRIVE_IS_TD:
             self._set_permission(file_id)
-        _LOG.info("Created Google-Drive Folder => Name: %s ID: %s ", file_name, file_id)
+        _LOG.info(
+            "Created Google-Drive Folder => Name: %s ID: %s ",
+            file_name,
+            file_id)
         return G_DRIVE_FOLDER_LINK.format(file_id, file_name)
 
     @pool.run_in_thread
     def _move(self, file_id: str) -> str:
-        previous_parents = ",".join(self._service.files().get(
-            fileId=file_id, fields='parents', supportsTeamDrives=True).execute()['parents'])
-        drive_file = self._service.files().update(fileId=file_id,
-                                                  addParents=self._parent_id,
-                                                  removeParents=previous_parents,
-                                                  fields="parents",
-                                                  supportsTeamDrives=True).execute()
+        previous_parents = ",".join(
+            self._service.files().get(
+                fileId=file_id,
+                fields='parents',
+                supportsTeamDrives=True).execute()['parents'])
+        drive_file = self._service.files().update(
+            fileId=file_id,
+            addParents=self._parent_id,
+            removeParents=previous_parents,
+            fields="parents",
+            supportsTeamDrives=True).execute()
         _LOG.info("Moved file : %s => "
                   f"from : %s to : {drive_file['parents']} in Google-Drive",
                   file_id, previous_parents)
@@ -527,10 +575,11 @@ class _GDrive:
 
     @pool.run_in_thread
     def _get(self, file_id: str) -> str:
-        drive_file = self._service.files().get(fileId=file_id, fields='*',
-                                               supportsTeamDrives=True).execute()
+        drive_file = self._service.files().get(
+            fileId=file_id, fields='*', supportsTeamDrives=True).execute()
         drive_file['size'] = humanbytes(int(drive_file.get('size', 0)))
-        drive_file['quotaBytesUsed'] = humanbytes(int(drive_file.get('quotaBytesUsed', 0)))
+        drive_file['quotaBytesUsed'] = humanbytes(
+            int(drive_file.get('quotaBytesUsed', 0)))
         drive_file = dumps(drive_file, sort_keys=True, indent=4)
         _LOG.info("Getting Google-Drive File Details => %s", drive_file)
         return drive_file
@@ -546,7 +595,10 @@ class _GDrive:
                                                    permissionId=perm_id).execute()
             all_perms[perm_id] = perm
         all_perms = dumps(all_perms, sort_keys=True, indent=4)
-        _LOG.info("All Permissions: %s for Google-Drive File : %s", all_perms, file_id)
+        _LOG.info(
+            "All Permissions: %s for Google-Drive File : %s",
+            all_perms,
+            file_id)
         return all_perms
 
     @pool.run_in_thread
@@ -555,7 +607,9 @@ class _GDrive:
         drive_file = self._service.files().get(fileId=file_id, supportsTeamDrives=True,
                                                fields="id, name, mimeType, size").execute()
         _LOG.info(
-            "Set Permission : for Google-Drive File : %s\n%s", file_id, drive_file)
+            "Set Permission : for Google-Drive File : %s\n%s",
+            file_id,
+            drive_file)
         mime_type = drive_file['mimeType']
         file_name = drive_file['name']
         file_id = drive_file['id']
@@ -574,17 +628,22 @@ class _GDrive:
                                                    supportsTeamDrives=True,
                                                    permissionId=perm_id).execute()
             if perm['role'] != "owner":
-                self._service.permissions().delete(supportsTeamDrives=True, fileId=file_id,
-                                                   permissionId=perm_id).execute()
+                self._service.permissions().delete(
+                    supportsTeamDrives=True,
+                    fileId=file_id,
+                    permissionId=perm_id).execute()
                 removed_perms[perm_id] = perm
         removed_perms = dumps(removed_perms, sort_keys=True, indent=4)
         _LOG.info(
-            "Remove Permission: %s for Google-Drive File : %s", removed_perms, file_id)
+            "Remove Permission: %s for Google-Drive File : %s",
+            removed_perms,
+            file_id)
         return removed_perms
 
 
 class Worker(_GDrive):
     """ Worker Class for GDrive """
+
     def __init__(self, message: Message) -> None:
         self._message = message
         super().__init__()
@@ -737,7 +796,8 @@ class Worker(_GDrive):
             await self._message.edit("`Downloading From TG...`")
             file_name = Config.DOWN_PATH
             if self._message.input_str:
-                file_name = os.path.join(Config.DOWN_PATH, self._message.input_str)
+                file_name = os.path.join(
+                    Config.DOWN_PATH, self._message.input_str)
             dl_loc = await self._message.client.download_media(
                 message=replied,
                 file_name=file_name,
@@ -806,7 +866,10 @@ class Worker(_GDrive):
             return
         if "|" in file_path:
             file_path, file_name = file_path.split("|")
-            new_path = os.path.join(os.path.dirname(file_path.strip()), file_name.strip())
+            new_path = os.path.join(
+                os.path.dirname(
+                    file_path.strip()),
+                file_name.strip())
             os.rename(file_path.strip(), new_path)
             file_path = new_path
         await self._message.edit("`Loading GDrive Upload...`")
@@ -1078,15 +1141,19 @@ async def gshare_(message: Message):
     await Worker(message).share()
 
 
-@userge.on_cmd("gup", about={
-    'header': "Upload files to GDrive",
-    'description': "set destination by setting parent_id, "
-                   "use `{tr}gset` to set parent_id (root path).",
-    'usage': "{tr}gup [file / folder path | direct link | reply to telegram file] "
-             "| [new name]",
-    'examples': [
-        "{tr}gup test.bin : reply to tg file", "{tr}gup downloads/100MB.bin | test.bin",
-        "{tr}gup https://speed.hetzner.de/100MB.bin | testing upload.bin"]}, check_downpath=True)
+@userge.on_cmd(
+    "gup",
+    about={
+        'header': "Upload files to GDrive",
+        'description': "set destination by setting parent_id, "
+        "use `{tr}gset` to set parent_id (root path).",
+        'usage': "{tr}gup [file / folder path | direct link | reply to telegram file] "
+        "| [new name]",
+        'examples': [
+            "{tr}gup test.bin : reply to tg file",
+            "{tr}gup downloads/100MB.bin | test.bin",
+            "{tr}gup https://speed.hetzner.de/100MB.bin | testing upload.bin"]},
+    check_downpath=True)
 async def gup_(message: Message):
     """ upload to gdrive """
     await Worker(message).upload()

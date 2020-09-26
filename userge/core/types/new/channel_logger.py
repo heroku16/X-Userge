@@ -30,7 +30,11 @@ def _gen_string(name: str) -> str:
 
 class ChannelLogger:
     """ Channel logger for Userge """
-    def __init__(self, client: Union['_client.Userge', '_client._UsergeBot'], name: str) -> None:
+
+    def __init__(self,
+                 client: Union['_client.Userge',
+                               '_client._UsergeBot'],
+                 name: str) -> None:
         self._client = client
         self._string = _gen_string(name)
 
@@ -48,7 +52,8 @@ class ChannelLogger:
         return "<b><a href='https://t.me/c/{}/{}'>Preview</a></b>".format(
             str(Config.LOG_CHANNEL_ID)[4:], message_id)
 
-    def bind(self, client: Union['_client.Userge', '_client._UsergeBot']) -> None:
+    def bind(self, client: Union['_client.Userge',
+                                 '_client._UsergeBot']) -> None:
         """\nbind with new client
 
         Parameters:
@@ -88,7 +93,9 @@ class ChannelLogger:
         string = self._string
         if name:
             string = _gen_string(name)
-        _LOG.debug(_LOG_STR, f"logging text : {text} to channel : {Config.LOG_CHANNEL_ID}")
+        _LOG.debug(
+            _LOG_STR,
+            f"logging text : {text} to channel : {Config.LOG_CHANNEL_ID}")
         msg = await self._client.send_message(chat_id=Config.LOG_CHANNEL_ID,
                                               text=string.format(text.strip()))
         return msg.message_id
@@ -123,7 +130,8 @@ class ChannelLogger:
             None
         """
         _LOG.debug(
-            _LOG_STR, f"forwarding msg : {message} to channel : {Config.LOG_CHANNEL_ID}")
+            _LOG_STR,
+            f"forwarding msg : {message} to channel : {Config.LOG_CHANNEL_ID}")
         if isinstance(message, RawMessage):
             if message.media:
                 asyncio.get_event_loop().create_task(self.log("**Forwarding Message...**", name))

@@ -90,6 +90,7 @@ asyncio.get_event_loop().run_until_complete(_main())
 
 class Filter:
     """ filter class """
+
     def __init__(self,
                  filters: RawFilter,
                  client: '_client.Userge',
@@ -110,7 +111,8 @@ class Filter:
                  check_invite_perm: bool,
                  check_pin_perm: bool,
                  name: str = '') -> None:
-        self.filters = rawfilters.create(lambda _, __, ___: self.is_enabled) & filters
+        self.filters = rawfilters.create(
+            lambda _, __, ___: self.is_enabled) & filters
         self.name = name
         self.scope: List[str] = []
         if allow_bots:
@@ -169,11 +171,16 @@ class Filter:
             await self.load()
 
     @classmethod
-    def parse(cls, **kwargs: Union[RawFilter, '_client.Userge', int, bool]) -> 'Filter':
+    def parse(cls,
+              **kwargs: Union[RawFilter,
+                              '_client.Userge',
+                              int,
+                              bool]) -> 'Filter':
         """ parse filter """
         return cls(**kwargs)
 
-    def update(self, func: Callable[[Any], Any], template: Callable[[Any], Any]) -> None:
+    def update(self, func: Callable[[Any], Any],
+               template: Callable[[Any], Any]) -> None:
         """ update filter """
         if not self.name:
             self.name = f"{func.__module__.split('.')[-1]}.{func.__name__}"

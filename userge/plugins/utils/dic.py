@@ -30,10 +30,14 @@ async def dictionary(message: Message):
         for i in s_word:
             if "definition" in i:
                 if "example" in i:
-                    w_word += ("\n👩‍🏫 **Definition** 👨‍🏫\n<pre>" + i["definition"] +
-                               "</pre>\n\t\t❓<b>Example</b>❔\n<pre>" + i["example"] + "</pre>")
+                    w_word += ("\n👩‍🏫 **Definition** 👨‍🏫\n<pre>" +
+                               i["definition"] +
+                               "</pre>\n\t\t❓<b>Example</b>❔\n<pre>" +
+                               i["example"] +
+                               "</pre>")
                 else:
-                    w_word += "\n👩‍🏫 **Definition** 👨‍🏫\n" + "<pre>" + i["definition"] + "</pre>"
+                    w_word += "\n👩‍🏫 **Definition** 👨‍🏫\n" + \
+                        "<pre>" + i["definition"] + "</pre>"
         w_word += "\n\n"
         return w_word
 
@@ -82,8 +86,12 @@ async def dictionary(message: Message):
                 out += combine(crosref, "crossReference")
                 # print(crosref)
         if "title" in list(word1):
-            out += ("🔖--**__Error Note__**--\n\n▪️`" + word1["title"] +
-                    "🥺\n\n▪️" + word1["message"] + "😬\n\n▪️<i>" + word1["resolution"] +
+            out += ("🔖--**__Error Note__**--\n\n▪️`" +
+                    word1["title"] +
+                    "🥺\n\n▪️" +
+                    word1["message"] +
+                    "😬\n\n▪️<i>" +
+                    word1["resolution"] +
                     "</i>🤓`")
         return out
 

@@ -51,6 +51,7 @@ async def set_level(message: Message):
     if level not in _LEVELS:
         await message.err("unknown level !")
         return
-    for logger in (logging.getLogger(name) for name in logging.root.manager.loggerDict):
+    for logger in (logging.getLogger(name)
+                   for name in logging.root.manager.loggerDict):
         logger.setLevel(_LEVELS[level])
     await message.edit(f"`successfully set logger level as` : **{level.upper()}**", del_in=3)

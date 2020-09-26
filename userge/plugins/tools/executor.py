@@ -147,6 +147,7 @@ async def init_func(message: Message):
 
 class Term:
     """ live update term class """
+
     def __init__(self, process: asyncio.subprocess.Process) -> None:
         self._process = process
         self._stdout = b''

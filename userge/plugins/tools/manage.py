@@ -15,16 +15,18 @@ from userge.utils import get_import_path
 from userge.plugins import ROOT
 
 
-@userge.on_cmd("status", about={
-    'header': "list plugins, commands, filters status",
-    'flags': {
-        '-p': "plugin",
-        '-c': "command",
-        '-f': "filter"},
-    'usage': "{tr}status [flags] [name]",
-    'examples': [
-        "{tr}status", "{tr}status -p",
-        "{tr}status -p gdrive", "{tr}status -c {tr}gls"]}, del_pre=True, allow_channels=False)
+@userge.on_cmd("status",
+               about={'header': "list plugins, commands, filters status",
+                      'flags': {'-p': "plugin",
+                                '-c': "command",
+                                '-f': "filter"},
+                      'usage': "{tr}status [flags] [name]",
+                      'examples': ["{tr}status",
+                                   "{tr}status -p",
+                                   "{tr}status -p gdrive",
+                                   "{tr}status -c {tr}gls"]},
+               del_pre=True,
+               allow_channels=False)
 async def status(message: Message) -> None:
     """ view current status """
     name_ = message.filtered_input_str
@@ -156,15 +158,16 @@ async def status(message: Message) -> None:
     await message.edit(out_str.replace("        ``\n", ''), del_in=0)
 
 
-@userge.on_cmd("enable", about={
-    'header': "enable plugins, commands, filters",
-    'flags': {
-        '-p': "plugin",
-        '-c': "command",
-        '-f': "filter"},
-    'usage': "{tr}enable [flags] [name | names]",
-    'examples': [
-        "{tr}enable -p gdrive", "{tr}enable -c gls gup"]}, del_pre=True, allow_channels=False)
+@userge.on_cmd("enable",
+               about={'header': "enable plugins, commands, filters",
+                      'flags': {'-p': "plugin",
+                                '-c': "command",
+                                '-f': "filter"},
+                      'usage': "{tr}enable [flags] [name | names]",
+                      'examples': ["{tr}enable -p gdrive",
+                                   "{tr}enable -c gls gup"]},
+               del_pre=True,
+               allow_channels=False)
 async def enable(message: Message) -> None:
     """ enable plugins, commands, filters """
     if not message.flags:
@@ -222,15 +225,16 @@ async def enable(message: Message) -> None:
     await message.edit(out_str, del_in=0, log=__name__)
 
 
-@userge.on_cmd("disable", about={
-    'header': "disable plugins, commands, filters",
-    'flags': {
-        '-p': "plugin",
-        '-c': "command",
-        '-f': "filter"},
-    'usage': "{tr}disable [flags] [name | names]",
-    'examples': [
-        "{tr}disable -p gdrive", "{tr}disable -c gls gup"]}, del_pre=True, allow_channels=False)
+@userge.on_cmd("disable",
+               about={'header': "disable plugins, commands, filters",
+                      'flags': {'-p': "plugin",
+                                '-c': "command",
+                                '-f': "filter"},
+                      'usage': "{tr}disable [flags] [name | names]",
+                      'examples': ["{tr}disable -p gdrive",
+                                   "{tr}disable -c gls gup"]},
+               del_pre=True,
+               allow_channels=False)
 async def disable(message: Message) -> None:
     """ disable plugins, commands, filters """
     if not message.flags:
@@ -288,16 +292,17 @@ async def disable(message: Message) -> None:
     await message.edit(out_str, del_in=0, log=__name__)
 
 
-@userge.on_cmd('load', about={
-    'header': "load plugins, commands, filters",
-    'flags': {
-        '-p': "plugin",
-        '-c': "command",
-        '-f': "filter"},
-    'usage': "{tr}load [reply to plugin] to load from file\n"
-             "{tr}load [flags] [name | names]",
-    'examples': [
-        "{tr}load -p gdrive", "{tr}load -c gls gup"]}, del_pre=True, allow_channels=False)
+@userge.on_cmd('load',
+               about={'header': "load plugins, commands, filters",
+                      'flags': {'-p': "plugin",
+                                '-c': "command",
+                                '-f': "filter"},
+                      'usage': "{tr}load [reply to plugin] to load from file\n"
+                      "{tr}load [flags] [name | names]",
+                      'examples': ["{tr}load -p gdrive",
+                                   "{tr}load -c gls gup"]},
+               del_pre=True,
+               allow_channels=False)
 async def load(message: Message) -> None:
     """ load plugins, commands, filters """
     if message.flags:
@@ -378,15 +383,16 @@ async def load(message: Message) -> None:
             await message.edit(f"pls check `{Config.CMD_TRIGGER}help load` !")
 
 
-@userge.on_cmd('unload', about={
-    'header': "unload plugins, commands, filters",
-    'flags': {
-        '-p': "plugin",
-        '-c': "command",
-        '-f': "filter"},
-    'usage': "{tr}unload [flags] [name | names]",
-    'examples': [
-        "{tr}unload -p gdrive", "{tr}unload -c gls gup"]}, del_pre=True, allow_channels=False)
+@userge.on_cmd('unload',
+               about={'header': "unload plugins, commands, filters",
+                      'flags': {'-p': "plugin",
+                                '-c': "command",
+                                '-f': "filter"},
+                      'usage': "{tr}unload [flags] [name | names]",
+                      'examples': ["{tr}unload -p gdrive",
+                                   "{tr}unload -c gls gup"]},
+               del_pre=True,
+               allow_channels=False)
 async def unload(message: Message) -> None:
     """ unload plugins, commands, filters """
     if not message.flags:
@@ -444,7 +450,9 @@ async def unload(message: Message) -> None:
     await message.edit(out_str, del_in=0, log=__name__)
 
 
-@userge.on_cmd('reload', about={'header': "Reload all plugins"}, allow_channels=False)
+@userge.on_cmd('reload',
+               about={'header': "Reload all plugins"},
+               allow_channels=False)
 async def reload_(message: Message) -> None:
     """ Reload all plugins """
     await message.edit("`Reloading All Plugins`")
@@ -452,7 +460,9 @@ async def reload_(message: Message) -> None:
         f"`Reloaded {await userge.reload_plugins()} Plugins`", del_in=3, log=__name__)
 
 
-@userge.on_cmd('clear', about={'header': "clear all save filters in DB"}, allow_channels=False)
+@userge.on_cmd('clear',
+               about={'header': "clear all save filters in DB"},
+               allow_channels=False)
 async def clear_(message: Message) -> None:
     """ clear all save filters in DB """
     await message.edit("`Clearing DB...`")

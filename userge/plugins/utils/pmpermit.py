@@ -41,12 +41,14 @@ async def _init() -> None:
         blocked_message = _blockPmMsg.get('data')
 
 
-@userge.on_cmd("allow", about={
-    'header': "allows someone to contact",
-    'description': "Ones someone is allowed, "
-                   "Userge will not interfere or handle such private chats",
-    'usage': "{tr}allow [username | userID]\nreply {tr}allow to a message, "
-             "do {tr}allow in the private chat"}, allow_channels=False, allow_via_bot=False)
+@userge.on_cmd("allow",
+               about={'header': "allows someone to contact",
+                      'description': "Ones someone is allowed, "
+                      "Userge will not interfere or handle such private chats",
+                      'usage': "{tr}allow [username | userID]\nreply {tr}allow to a message, "
+                      "do {tr}allow in the private chat"},
+               allow_channels=False,
+               allow_via_bot=False)
 async def allow(message: Message):
     """ allows to pm """
     userid = await get_id(message)
@@ -67,12 +69,14 @@ async def allow(message: Message):
             del_in=3)
 
 
-@userge.on_cmd("nopm", about={
-    'header': "Activates guarding on inbox",
-    'description': "Ones someone is allowed, "
-                   "Userge will not interfere or handle such private chats",
-    'usage': "{tr}nopm [username | userID]\nreply {tr}nopm to a message, "
-             "do {tr}nopm in the private chat"}, allow_channels=False, allow_via_bot=False)
+@userge.on_cmd("nopm",
+               about={'header': "Activates guarding on inbox",
+                      'description': "Ones someone is allowed, "
+                      "Userge will not interfere or handle such private chats",
+                      'usage': "{tr}nopm [username | userID]\nreply {tr}nopm to a message, "
+                      "do {tr}nopm in the private chat"},
+               allow_channels=False,
+               allow_via_bot=False)
 async def denyToPm(message: Message):
     """ disallows to pm """
     userid = await get_id(message)
@@ -193,7 +197,8 @@ async def view_current_blockPM_msg(message: Message):
 async def uninvitedPmHandler(message: Message):
     """ pm message handler """
     user_dict = await userge.get_user_dict(message.from_user.id)
-    user_dict.update({'chat': message.chat.title if message.chat.title else "this group"})
+    user_dict.update(
+        {'chat': message.chat.title if message.chat.title else "this group"})
     if message.from_user.is_verified:
         return
     if message.from_user.id in pmCounter:
@@ -217,8 +222,8 @@ async def uninvitedPmHandler(message: Message):
         await CHANNEL.log(f"#NEW_MESSAGE\n{user_dict['mention']} has messaged you")
 
 
-@userge.on_filters(~allowAllFilter & filters.outgoing
-                   & filters.private & ~Config.ALLOWED_CHATS, allow_via_bot=False)
+@userge.on_filters(~allowAllFilter & filters.outgoing &
+                   filters.private & ~Config.ALLOWED_CHATS, allow_via_bot=False)
 async def outgoing_auto_approve(message: Message):
     """ outgoing handler """
     userID = message.chat.id

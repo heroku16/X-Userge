@@ -25,10 +25,11 @@ from .upload import upload
 LOGGER = userge.getLogger(__name__)
 
 
-@userge.on_cmd("ytinfo", about={'header': "Get info from ytdl",
-                                'description': 'Get information of the link without downloading',
-                                'examples': '{tr}ytinfo link',
-                                'others': 'To get info about direct links, use `{tr}head link`'})
+@userge.on_cmd("ytinfo",
+               about={'header': "Get info from ytdl",
+                      'description': 'Get information of the link without downloading',
+                      'examples': '{tr}ytinfo link',
+                      'others': 'To get info about direct links, use `{tr}head link`'})
 async def ytinfo(message: Message):
     """ get info from a link """
     await message.edit("Hold on \u23f3 ..")
@@ -46,7 +47,11 @@ __{uploader}__
 {table}
     """.format_map(_exracted)
     if _exracted['thumb']:
-        _tmp = wget.download(_exracted['thumb'], os.path.join(Config.DOWN_PATH, f"{time()}.jpg"))
+        _tmp = wget.download(
+            _exracted['thumb'],
+            os.path.join(
+                Config.DOWN_PATH,
+                f"{time()}.jpg"))
         await message.reply_photo(_tmp, caption=out)
         await message.delete()
         os.remove(_tmp)
@@ -54,16 +59,18 @@ __{uploader}__
         await message.edit(out)
 
 
-@userge.on_cmd("ytdl", about={'header': "Download from youtube",
-                              'options': {'-a': 'select the audio u-id',
-                                          '-v': 'select the video u-id',
-                                          '-m': 'extract the mp3 in 320kbps',
-                                          '-t': 'upload to telegram'},
-                              'examples': ['{tr}ytdl link',
-                                           '{tr}ytdl -a12 -v120 link',
-                                           '{tr}ytdl -m -t link will upload the mp3',
-                                           '{tr}ytdl -m -t -d link will upload '
-                                           'the mp3 as a document']}, del_pre=True)
+@userge.on_cmd("ytdl",
+               about={'header': "Download from youtube",
+                      'options': {'-a': 'select the audio u-id',
+                                  '-v': 'select the video u-id',
+                                  '-m': 'extract the mp3 in 320kbps',
+                                  '-t': 'upload to telegram'},
+                      'examples': ['{tr}ytdl link',
+                                   '{tr}ytdl -a12 -v120 link',
+                                   '{tr}ytdl -m -t link will upload the mp3',
+                                   '{tr}ytdl -m -t -d link will upload '
+                                   'the mp3 as a document']},
+               del_pre=True)
 async def ytDown(message: Message):
     """ download from a link """
     def __progress(data: dict):
@@ -106,7 +113,7 @@ async def ytDown(message: Message):
             retcode = await _tubeDl(
                 [message.filtered_input_str], __progress, startTime, desiredFormat)
         elif 'v' in message.flags:
-            desiredFormat = desiredFormat2+'+bestaudio'
+            desiredFormat = desiredFormat2 + '+bestaudio'
             retcode = await _tubeDl(
                 [message.filtered_input_str], __progress, startTime, desiredFormat)
         else:
@@ -116,7 +123,11 @@ async def ytDown(message: Message):
         retcode = await _tubeDl(
             [message.filtered_input_str], __progress, startTime, None)
     if retcode == 0:
-        _fpath = glob.glob(os.path.join(Config.DOWN_PATH, str(startTime), '*'))[0]
+        _fpath = glob.glob(
+            os.path.join(
+                Config.DOWN_PATH,
+                str(startTime),
+                '*'))[0]
         await message.edit(f"**YTDL completed in {round(time() - startTime)} seconds**\n`{_fpath}`")
         if 't' in message.flags:
             await upload(message, Path(_fpath))
@@ -124,9 +135,10 @@ async def ytDown(message: Message):
         await message.edit(str(retcode))
 
 
-@userge.on_cmd("ytdes", about={'header': "Get the video description",
-                               'description': 'Get information of the link without downloading',
-                               'examples': '{tr}ytdes link'})
+@userge.on_cmd("ytdes",
+               about={'header': "Get the video description",
+                      'description': 'Get information of the link without downloading',
+                      'examples': '{tr}ytdes link'})
 async def ytdes(message: Message):
     """ get description from a link """
     await message.edit("Hold on \u23f3 ..")
@@ -145,8 +157,8 @@ async def ytdes(message: Message):
 @pool.run_in_thread
 def _yt_description(link):
     try:
-        x = ytdl.YoutubeDL({'no-playlist': True, 'logger': LOGGER}).extract_info(
-            link, download=False)
+        x = ytdl.YoutubeDL({'no-playlist': True, 'logger': LOGGER}
+                           ).extract_info(link, download=False)
     except ytdl.utils.YoutubeDLError as y_e:
         LOGGER.exception(y_e)
         return y_e
@@ -171,8 +183,10 @@ def _yt_getInfo(link):
         LOGGER.exception(y_e)
         return y_e
     else:
-        return {'thumb': thumb, 'table': out, 'uploader': x.get('uploader_id', None),
-                'title': x.get('title', None)}
+        return {
+            'thumb': thumb, 'table': out, 'uploader': x.get(
+                'uploader_id', None), 'title': x.get(
+                'title', None)}
 
 
 @pool.run_in_thread

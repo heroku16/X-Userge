@@ -17,12 +17,13 @@ from . import RawDecorator
 
 
 class OnLeftMember(RawDecorator):  # pylint: disable=missing-class-docstring
-    def on_left_member(self,
-                       leaving_chats: RawFilter,
-                       group: int = -2,
-                       allow_via_bot: bool = True,
-                       check_client: bool = True,
-                       check_downpath: bool = False) -> RawDecorator._PYRORETTYPE:
+    def on_left_member(
+            self,
+            leaving_chats: RawFilter,
+            group: int = -2,
+            allow_via_bot: bool = True,
+            check_client: bool = True,
+            check_downpath: bool = False) -> RawDecorator._PYRORETTYPE:
         """\nDecorator for handling left members
 
         Parameters:

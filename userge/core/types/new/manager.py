@@ -21,6 +21,7 @@ _FLT = Union[Filter, Command]
 
 class Manager:
     """ manager for userge """
+
     def __init__(self, client: '_client.Userge') -> None:
         self._client = client
         self.plugins: Dict[str, Plugin] = {}
@@ -28,17 +29,21 @@ class Manager:
     @property
     def commands(self) -> Dict[str, Command]:
         """ returns all commands """
-        return {cmd.name: cmd for _, i in self.plugins.items() for cmd in i.commands}
+        return {cmd.name: cmd for _, i in self.plugins.items()
+                for cmd in i.commands}
 
     @property
     def filters(self) -> Dict[str, Filter]:
         """ returns all filters """
-        return {flt.name: flt for _, i in self.plugins.items() for flt in i.filters}
+        return {flt.name: flt for _, i in self.plugins.items()
+                for flt in i.filters}
 
     @property
     def enabled_commands(self) -> Dict[str, Command]:
         """ returns all enabled commands """
-        return {cmd.name: cmd for _, cmd in self.commands.items() if cmd.is_enabled}
+        return {
+            cmd.name: cmd for _,
+            cmd in self.commands.items() if cmd.is_enabled}
 
     @property
     def disabled_commands(self) -> List[Command]:
@@ -78,7 +83,9 @@ class Manager:
     @property
     def enabled_plugins(self) -> Dict[str, Plugin]:
         """returns all enabled plugins"""
-        return {plg.name: plg for _, plg in self.plugins.items() if plg.is_enabled}
+        return {
+            plg.name: plg for _,
+            plg in self.plugins.items() if plg.is_enabled}
 
     @property
     def disabled_plugins(self) -> List[Plugin]:

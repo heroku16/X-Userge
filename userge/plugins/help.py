@@ -41,7 +41,9 @@ async def _init() -> None:
         Config.USE_USER_FOR_CLIENT_CHECKS = bool(data['is_user'])
 
 
-@userge.on_cmd("help", about={'header': "Guide to use USERGE commands"}, allow_channels=False)
+@userge.on_cmd("help",
+               about={'header': "Guide to use USERGE commands"},
+               allow_channels=False)
 async def helpme(message: Message) -> None:  # pylint: disable=missing-function-docstring
     plugins = userge.manager.enabled_plugins
     if not message.input_str:
@@ -51,8 +53,9 @@ async def helpme(message: Message) -> None:  # pylint: disable=missing-function-
             if cat == "plugins":
                 continue
             out_str += (f"    {_CATEGORY.get(cat, '📁')} <b>{cat}</b> "
-                        f"(<code>{len(cat_plugins[cat])}</code>) :   <code>"
-                        + "</code>    <code>".join(sorted(cat_plugins[cat])) + "</code>\n━─━─━─━─━─━─━─━─━─━─━\n")
+                        f"(<code>{len(cat_plugins[cat])}</code>) :   <code>" +
+                        "</code>    <code>".join(sorted(cat_plugins[cat])) +
+                        "</code>\n━─━─━─━─━─━─━─━─━─━─━\n")
         out_str += f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
     else:
         key = message.input_str
@@ -66,8 +69,9 @@ async def helpme(message: Message) -> None:  # pylint: disable=missing-function-
 🔧 <b>Plugin:</b>  <code>{key}</code>🔥
 📘 <b>Doc:</b>  <code>{plugins[key].doc}</code>\n━─━─━─━─━─━─━─━─━─━─━\n"""
             for i, cmd in enumerate(commands, start=1):
-                out_str += (f"╭━━━━━━━━━━━━━━━━━━━━╮\n    🤖 <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
-                            f"    📚 <b>info:</b>  <i>{cmd.doc}</i>\n╰━━━━━━━━━━━━━━━━━━━━╯\n")
+                out_str += (
+                    f"╭━━━━━━━━━━━━━━━━━━━━╮\n    🤖 <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
+                    f"    📚 <b>info:</b>  <i>{cmd.doc}</i>\n╰━━━━━━━━━━━━━━━━━━━━╯\n")
             out_str += f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
         else:
             commands = userge.manager.enabled_commands
@@ -104,7 +108,8 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
                     show_alert=True)
         return wrapper
 
-    @ubot.on_callback_query(filters=filters.regex(pattern=r"\((.+)\)(next|prev)\((\d+)\)"))
+    @ubot.on_callback_query(filters=filters.regex(
+        pattern=r"\((.+)\)(next|prev)\((\d+)\)"))
     @check_owner
     async def callback_next_prev(callback_query: CallbackQuery):
         cur_pos = str(callback_query.matches[0].group(1))
@@ -157,7 +162,8 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         await callback_query.edit_message_text(
             text, reply_markup=InlineKeyboardMarkup(buttons))
 
-    @ubot.on_callback_query(filters=filters.regex(pattern=r"((?:un)?load|(?:en|dis)able)\((.+)\)"))
+    @ubot.on_callback_query(filters=filters.regex(
+        pattern=r"((?:un)?load|(?:en|dis)able)\((.+)\)"))
     @check_owner
     async def callback_manage(callback_query: CallbackQuery):
         task = str(callback_query.matches[0].group(1))
@@ -230,15 +236,17 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
                       func: Callable[[str], str],
                       data: Union[List[str], Dict[str, Any]],
                       rows: int = 3):
-        buttons = [InlineKeyboardButton(
-            func(x), callback_data=f"enter({cur_pos}|{x})".encode()) for x in sorted(data)]
+        buttons = [
+            InlineKeyboardButton(
+                func(x),
+                callback_data=f"enter({cur_pos}|{x})".encode()) for x in sorted(data)]
         pairs = list(map(list, zip(buttons[::2], buttons[1::2])))
         if len(buttons) % 2 == 1:
             pairs.append([buttons[-1]])
         max_pages = ceil(len(pairs) / rows)
         current_page = page_num % max_pages
         if len(pairs) > rows:
-            pairs = pairs[current_page*rows:(current_page + 1)*rows] + [
+            pairs = pairs[current_page * rows:(current_page + 1) * rows] + [
                 [
                     InlineKeyboardButton(
                         "⏪ Previous", callback_data=f"({cur_pos})prev({current_page})".encode()),
@@ -265,15 +273,18 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
                     "🔄 Refresh", callback_data=f"refresh({cur_pos})".encode()))
         else:
             cur_clnt = "👲 USER" if Config.USE_USER_FOR_CLIENT_CHECKS else "🤖 BOT"
-            tmp_btns.append(InlineKeyboardButton(
-                f"🔩 Client for Checks and Sudos : {cur_clnt}", callback_data="chgclnt".encode()))
+            tmp_btns.append(
+                InlineKeyboardButton(
+                    f"🔩 Client for Checks and Sudos : {cur_clnt}",
+                    callback_data="chgclnt".encode()))
         return [tmp_btns]
 
     def category_data(cur_pos: str):
         pos_list = cur_pos.split('|')
         plugins = userge.manager.get_all_plugins()[pos_list[1]]
-        text = (f"**(`{len(plugins)}`) Plugin(s) Under : "
-                f"`{_CATEGORY.get(pos_list[1], '📁')} {pos_list[1]}` 🎭 Category**")
+        text = (
+            f"**(`{len(plugins)}`) Plugin(s) Under : "
+            f"`{_CATEGORY.get(pos_list[1], '📁')} {pos_list[1]}` 🎭 Category**")
         buttons = parse_buttons(0, '|'.join(pos_list[:2]),
                                 lambda x: f"🗃 {x}",
                                 plugins)
@@ -294,18 +305,27 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
 """
         tmp_btns = []
         if plg.is_loaded:
-            tmp_btns.append(InlineKeyboardButton(
-                "❎ Unload", callback_data=f"unload({'|'.join(pos_list[:3])})".encode()))
+            tmp_btns.append(
+                InlineKeyboardButton(
+                    "❎ Unload",
+                    callback_data=f"unload({'|'.join(pos_list[:3])})".encode()))
         else:
-            tmp_btns.append(InlineKeyboardButton(
-                "✅ Load", callback_data=f"load({'|'.join(pos_list[:3])})".encode()))
+            tmp_btns.append(
+                InlineKeyboardButton(
+                    "✅ Load",
+                    callback_data=f"load({'|'.join(pos_list[:3])})".encode()))
         if plg.is_enabled:
-            tmp_btns.append(InlineKeyboardButton(
-                "➖ Disable", callback_data=f"disable({'|'.join(pos_list[:3])})".encode()))
+            tmp_btns.append(
+                InlineKeyboardButton(
+                    "➖ Disable",
+                    callback_data=f"disable({'|'.join(pos_list[:3])})".encode()))
         else:
-            tmp_btns.append(InlineKeyboardButton(
-                "➕ Enable", callback_data=f"enable({'|'.join(pos_list[:3])})".encode()))
-        buttons = parse_buttons(p_num, '|'.join(pos_list[:3]),
+            tmp_btns.append(
+                InlineKeyboardButton(
+                    "➕ Enable",
+                    callback_data=f"enable({'|'.join(pos_list[:3])})".encode()))
+        buttons = parse_buttons(p_num,
+                                '|'.join(pos_list[:3]),
                                 lambda x: f"⚖ {x}" if is_filter(x) else f"⚔ {x}",
                                 (flt.name for flt in plg.commands + plg.filters))
         buttons = buttons[:-1] + [tmp_btns] + [buttons[-1]]
@@ -399,7 +419,8 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
                     user = await userge.get_users(_id.strip())
                 except Exception:  # pylint: disable=broad-except
                     return
-                PRVT_MSGS[inline_query.id] = (user.id, user.first_name, msg.strip(': '))
+                PRVT_MSGS[inline_query.id] = (
+                    user.id, user.first_name, msg.strip(': '))
                 prvte_msg = [[InlineKeyboardButton(
                     "Show Message 🔐", callback_data=f"prvtmsg({inline_query.id})")]]
                 msg_c = f"🔒 A **private message** to {user.mention}, Only he/she can open it."

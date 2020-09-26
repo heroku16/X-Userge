@@ -18,19 +18,20 @@ LOG = userge.getLogger(__name__)
 CHANNEL = userge.getCLogger(__name__)
 
 
-@userge.on_cmd("update", about={
-    'header': "Check Updates or Update X-Userge",
-    'flags': {
-        '-pull': "pull updates",
-        '-push': "push updates to heroku",
-        '-master': "select master branch",
-        '-beta': "select beta branch",
-        '-alpha': "select alpha branch"},
-    'usage': "{tr}update : check updates from default branch\n"
-             "{tr}update -[branch_name] : check updates from any branch\n"
-             "add -pull if you want to pull updates\n"
-             "add -push if you want to push updates to heroku",
-    'examples': "{tr}update -beta -pull -push"}, del_pre=True, allow_channels=False)
+@userge.on_cmd("update",
+               about={'header': "Check Updates or Update X-Userge",
+                      'flags': {'-pull': "pull updates",
+                                '-push': "push updates to heroku",
+                                '-master': "select master branch",
+                                '-beta': "select beta branch",
+                                '-alpha': "select alpha branch"},
+                      'usage': "{tr}update : check updates from default branch\n"
+                      "{tr}update -[branch_name] : check updates from any branch\n"
+                      "add -pull if you want to pull updates\n"
+                      "add -push if you want to push updates to heroku",
+                      'examples': "{tr}update -beta -pull -push"},
+               del_pre=True,
+               allow_channels=False)
 async def check_update(message: Message):
     """ check or do updates """
     await message.edit("`Checking for updates, please wait....`")
@@ -140,7 +141,8 @@ def _heroku_helper(sent: Message, repo: Repo, branch: str) -> None:
             edited = True
             start_time = now
             try:
-                loop.run_until_complete(sent.try_to_edit(f"{cur_msg}\n\n{prog}"))
+                loop.run_until_complete(
+                    sent.try_to_edit(f"{cur_msg}\n\n{prog}"))
             except TypeError:
                 pass
     cur_msg = sent.text.html

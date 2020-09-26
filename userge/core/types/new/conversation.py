@@ -33,6 +33,7 @@ class _MsgLimitReached(Exception):
 
 class Conversation:
     """ Conversation class for userge """
+
     def __init__(self,
                  client: '_client.Userge',
                  chat: Union[str, int],
@@ -166,7 +167,8 @@ class Conversation:
         if self._user:
             self._user_id = int(self._user) if isinstance(self._user, int) else \
                 (await self._client.get_users(self._user)).id
-            _CONV_DICT[self._chat_id] = (self._user_id, asyncio.Queue(self._limit))
+            _CONV_DICT[self._chat_id] = (
+                self._user_id, asyncio.Queue(self._limit))
         else:
             _CONV_DICT[self._chat_id] = asyncio.Queue(self._limit)
         return self

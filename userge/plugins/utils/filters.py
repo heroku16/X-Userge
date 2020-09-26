@@ -17,15 +17,35 @@ FILTERS_COLLECTION = get_collection("filters")
 CHANNEL = userge.getCLogger(__name__)
 
 FILTERS_DATA: Dict[int, Dict[str, int]] = {}
-FILTERS_CHATS = filters.create(lambda _, __, query: query.chat and query.chat.id in FILTERS_DATA)
+FILTERS_CHATS = filters.create(
+    lambda _, __, query: query.chat and query.chat.id in FILTERS_DATA)
 
-_SUPPORTED_TYPES = (":audio:", ":video:", ":photo:", ":document:",
-                    ":sticker:", ":animation:", ":voice:", ":video_note:",
-                    ":media:", ":game:", ":contact:", ":location:",
-                    ":venue:", ":web_page:", ":poll:", ":via_bot:",
-                    ":forward_date:", ":mentioned:", ":service:",
-                    ":media_group_id:", ":game_high_score:", ":pinned_message:",
-                    ":new_chat_title:", ":new_chat_photo:", ":delete_chat_photo:")
+_SUPPORTED_TYPES = (
+    ":audio:",
+    ":video:",
+    ":photo:",
+    ":document:",
+    ":sticker:",
+    ":animation:",
+    ":voice:",
+    ":video_note:",
+    ":media:",
+    ":game:",
+    ":contact:",
+    ":location:",
+    ":venue:",
+    ":web_page:",
+    ":poll:",
+    ":via_bot:",
+    ":forward_date:",
+    ":mentioned:",
+    ":service:",
+    ":media_group_id:",
+    ":game_high_score:",
+    ":pinned_message:",
+    ":new_chat_title:",
+    ":new_chat_photo:",
+    ":delete_chat_photo:")
 
 
 def _filter_updater(chat_id: int, name: str, message_id: int) -> None:
@@ -85,14 +105,13 @@ async def filters_active(message: Message) -> None:
         await message.err("There are no saved filters in this chat")
 
 
-@userge.on_cmd(
-    "delfilter", about={
-        'header': "Deletes a filter by name",
-        'flags': {
-            '-all': "remove all filters in this chat",
-            '-every': "remove all filters in every chats"},
-        'usage': "{tr}delfilter [filter name | filter type]\n{tr}delfilter -all"},
-    allow_channels=False, allow_bots=False)
+@userge.on_cmd("delfilter",
+               about={'header': "Deletes a filter by name",
+                      'flags': {'-all': "remove all filters in this chat",
+                                '-every': "remove all filters in every chats"},
+                      'usage': "{tr}delfilter [filter name | filter type]\n{tr}delfilter -all"},
+               allow_channels=False,
+               allow_bots=False)
 async def delete_filters(message: Message) -> None:
     """ delete filter in current chat """
     if '-every' in message.flags:

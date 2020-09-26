@@ -57,7 +57,9 @@ async def restart_(message: Message):
         asyncio.get_event_loop().create_task(userge.restart())
 
 
-@userge.on_cmd("shutdown", about={'header': "shutdown userge :)"}, allow_channels=False)
+@userge.on_cmd("shutdown",
+               about={'header': "shutdown userge :)"},
+               allow_channels=False)
 async def shutdown_(message: Message) -> None:
     """ shutdown userge """
     await message.edit("`shutting down ...`")
@@ -99,8 +101,8 @@ async def die_(message: Message) -> None:
         await message.err(f"`please set higher value [{time_in_min}] !`")
         return
     MAX_IDLE_TIME = time_in_min * 60
-    SAVED_SETTINGS.update_one({'_id': 'DYNO_SAVER'},
-                              {"$set": {'on': True, 'timeout': MAX_IDLE_TIME}}, upsert=True)
+    SAVED_SETTINGS.update_one({'_id': 'DYNO_SAVER'}, {
+                              "$set": {'on': True, 'timeout': MAX_IDLE_TIME}}, upsert=True)
     await message.edit('auto heroku dyno off worker has been **started** '
                        f'[`{time_in_min}`min]', del_in=3, log=__name__)
     Config.RUN_DYNO_SAVER = asyncio.get_event_loop().create_task(_dyno_saver_worker())
@@ -220,12 +222,14 @@ async def _dyno_saver_worker() -> None:
                     if not count % check_delay:
                         if Config.STATUS is None:
                             offline_start_time = RawClient.LAST_OUTGOING_TIME
-                        current_idle_time = int((time.time() - offline_start_time))
+                        current_idle_time = int(
+                            (time.time() - offline_start_time))
                         if current_idle_time < 5:
                             warned = False
                         if current_idle_time >= MAX_IDLE_TIME:
                             try:
-                                Config.HEROKU_APP.scale_formation_process("worker", 0)
+                                Config.HEROKU_APP.scale_formation_process(
+                                    "worker", 0)
                             except Exception as h_e:  # pylint: disable=broad-except
                                 LOG.err(f"heroku app error : {h_e}")
                                 offline_start_time += 20
@@ -235,7 +239,8 @@ async def _dyno_saver_worker() -> None:
                             await CHANNEL.log("heroku dyno killed !")
                             sys.exit()
                             return
-                        prog = round(current_idle_time * 100 / MAX_IDLE_TIME, 2)
+                        prog = round(
+                            current_idle_time * 100 / MAX_IDLE_TIME, 2)
                         mins = int(MAX_IDLE_TIME / 60)
                         if prog >= 75 and not warned:
                             rem = int((100 - prog) * MAX_IDLE_TIME / 100)

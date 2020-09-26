@@ -73,7 +73,9 @@ class _AbstractUserge(Methods, RawClient):
             if asyncio.iscoroutinefunction(plg._init):
                 _INIT_TASKS.append(
                     asyncio.get_event_loop().create_task(plg._init()))
-        _LOG.debug(_LOG_STR, f"Imported {_IMPORTED[-1].__name__} Plugin Successfully")
+        _LOG.debug(
+            _LOG_STR,
+            f"Imported {_IMPORTED[-1].__name__} Plugin Successfully")
 
     async def _load_plugins(self) -> None:
         _IMPORTED.clear()
@@ -107,6 +109,7 @@ class _AbstractUserge(Methods, RawClient):
 
 class _UsergeBot(_AbstractUserge):
     """ UsergeBot, the bot """
+
     def __init__(self, **kwargs) -> None:
         _LOG.info(_LOG_STR, "Setting UsergeBot Configs")
         super().__init__(session_name=":memory:", **kwargs)
@@ -119,6 +122,7 @@ class _UsergeBot(_AbstractUserge):
 
 class Userge(_AbstractUserge):
     """ Userge, the userbot """
+
     def __init__(self, **kwargs) -> None:
         _LOG.info(_LOG_STR, "Setting Userge Configs")
         kwargs = {

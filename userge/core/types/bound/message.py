@@ -42,6 +42,7 @@ def _msg_to_dict(message: RawMessage) -> Dict[str, object]:
 
 class Message(RawMessage):
     """ Modded Message Class For Userge """
+
     def __init__(self,
                  client: Union['_client.Userge', '_client._UsergeBot'],
                  message: RawMessage,
@@ -50,7 +51,8 @@ class Message(RawMessage):
         self.message_id: int
         self.reply_to_message: Optional[RawMessage]
         if self.reply_to_message:
-            self.reply_to_message = self.__class__(self._client, self.reply_to_message)
+            self.reply_to_message = self.__class__(
+                self._client, self.reply_to_message)
         self._filtered = False
         self._process_canceled = False
         self._filtered_input_str: str = ''
@@ -94,7 +96,8 @@ class Message(RawMessage):
         """ Returns the input string  or replied msg text without command """
         input_ = self.input_str
         if not input_ and self.reply_to_message:
-            input_ = (self.reply_to_message.text or self.reply_to_message.caption or '').strip()
+            input_ = (
+                self.reply_to_message.text or self.reply_to_message.caption or '').strip()
         return input_
 
     @property
@@ -118,7 +121,8 @@ class Message(RawMessage):
         return self._process_canceled
 
     @property
-    def extract_user_and_text(self) -> Tuple[Optional[Union[str, int]], Optional[str]]:
+    def extract_user_and_text(
+            self) -> Tuple[Optional[Union[str, int]], Optional[str]]:
         """ Extracts User and Text
         [NOTE]: This method checks for reply first.
         On Success:
@@ -142,7 +146,8 @@ class Message(RawMessage):
             if user.isdigit():
                 user_e = int(user)
             elif self.entities:
-                # Extracting text mention entity and skipping if it's @ mention.
+                # Extracting text mention entity and skipping if it's @
+                # mention.
                 for mention in self.entities:
                     # Catch first text mention
                     if mention.type == "text_mention":

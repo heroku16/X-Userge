@@ -139,11 +139,20 @@ async def hi_(message: Message):
         await message.edit(pay)
 
 
-@userge.on_cmd("react", about={
-    'header': "Make your userbot react to everything",
-    'types': ['happy', 'thinking', 'waving', 'wtf', 'love', 'confused', 'dead', 'sad', 'dog'],
-    'usage': "{tr}react [type]",
-    'examples': ["{tr}react", "{tr}react dead"]})
+@userge.on_cmd("react",
+               about={'header': "Make your userbot react to everything",
+                      'types': ['happy',
+                                'thinking',
+                                'waving',
+                                'wtf',
+                                'love',
+                                'confused',
+                                'dead',
+                                'sad',
+                                'dog'],
+                      'usage': "{tr}react [type]",
+                      'examples': ["{tr}react",
+                                   "{tr}react dead"]})
 async def react_(message: Message):
     """react"""
     type_ = message.input_str
@@ -340,9 +349,13 @@ async def slap_(message: Message):
             "`Can't slap this person, need to fetch some sticks and stones !!`")
 
 
-@userge.on_cmd("(yes|no|maybe|decide)$", about={
-    'header': "Make a quick decision",
-    'examples': ['{tr}decide', '{tr}yes', '{tr}no', '{tr}maybe']}, name="decide")
+@userge.on_cmd("(yes|no|maybe|decide)$",
+               about={'header': "Make a quick decision",
+                      'examples': ['{tr}decide',
+                                   '{tr}yes',
+                                   '{tr}no',
+                                   '{tr}maybe']},
+               name="decide")
 async def decide_(message: Message):
     """decide"""
     decision = message.matches[0].group(1).lower()
@@ -516,9 +529,19 @@ async def lfy_(message: Message):
     'usage': "{tr}scam\n{tr}scam [action]\n{tr}scam [time]\n{tr}scam [action] [time]"})
 async def scam_(message: Message):
     """scam"""
-    options = ('typing', 'upload_photo', 'record_video', 'upload_video', 'record_audio',
-               'upload_audio', 'upload_document', 'find_location', 'record_video_note',
-               'upload_video_note', 'choose_contact', 'playing')
+    options = (
+        'typing',
+        'upload_photo',
+        'record_video',
+        'upload_video',
+        'record_audio',
+        'upload_audio',
+        'upload_document',
+        'find_location',
+        'record_video_note',
+        'upload_video_note',
+        'choose_contact',
+        'playing')
     input_str = message.input_str
     args = input_str.split()
     if len(args) == 0:  # Let bot decide action and time
@@ -567,23 +590,72 @@ HIT = ("hits", "whacks", "slaps", "smacks", "bashes")
 WHERE = ("in the chest", "on the head", "on the butt", "on the crotch")
 
 METOOSTR = (
-    "Me too thanks", "Haha yes, me too", "Same lol", "Me irl", "Same here", "Haha yes", "Me rn")
+    "Me too thanks",
+    "Haha yes, me too",
+    "Same lol",
+    "Me irl",
+    "Same here",
+    "Haha yes",
+    "Me rn")
 
 HELLOSTR = (
-    "Hi !", "‘Ello, gov'nor!", "What’s crackin’?", "‘Sup, homeslice?", "Howdy, howdy ,howdy!",
-    "Hello, who's there, I'm talking.", "You know who this is.", "Yo!", "Whaddup.",
-    "Greetings and salutations!", "Hello, sunshine!", "Hey, howdy, hi!",
-    "What’s kickin’, little chicken?", "Peek-a-boo!", "Howdy-doody!",
-    "Hey there, freshman!", "I come in peace!", "Ahoy, matey!", "Hiya!")
+    "Hi !",
+    "‘Ello, gov'nor!",
+    "What’s crackin’?",
+    "‘Sup, homeslice?",
+    "Howdy, howdy ,howdy!",
+    "Hello, who's there, I'm talking.",
+    "You know who this is.",
+    "Yo!",
+    "Whaddup.",
+    "Greetings and salutations!",
+    "Hello, sunshine!",
+    "Hey, howdy, hi!",
+    "What’s kickin’, little chicken?",
+    "Peek-a-boo!",
+    "Howdy-doody!",
+    "Hey there, freshman!",
+    "I come in peace!",
+    "Ahoy, matey!",
+    "Hiya!")
 
 ITEMS = (
-    "cast iron skillet", "large trout", "baseball bat", "cricket bat", "wooden cane", "nail",
-    "printer", "shovel", "pair of trousers", "CRT monitor", "diamond sword", "baguette",
-    "physics textbook", "toaster", "portrait of Richard Stallman", "television", "mau5head",
-    "five ton truck", "roll of duct tape", "book", "laptop", "old television",
-    "sack of rocks", "rainbow trout", "cobblestone block", "lava bucket", "rubber chicken",
-    "spiked bat", "gold block", "fire extinguisher", "heavy rock", "chunk of dirt",
-    "beehive", "piece of rotten meat", "bear", "ton of bricks")
+    "cast iron skillet",
+    "large trout",
+    "baseball bat",
+    "cricket bat",
+    "wooden cane",
+    "nail",
+    "printer",
+    "shovel",
+    "pair of trousers",
+    "CRT monitor",
+    "diamond sword",
+    "baguette",
+    "physics textbook",
+    "toaster",
+    "portrait of Richard Stallman",
+    "television",
+    "mau5head",
+    "five ton truck",
+    "roll of duct tape",
+    "book",
+    "laptop",
+    "old television",
+    "sack of rocks",
+    "rainbow trout",
+    "cobblestone block",
+    "lava bucket",
+    "rubber chicken",
+    "spiked bat",
+    "gold block",
+    "fire extinguisher",
+    "heavy rock",
+    "chunk of dirt",
+    "beehive",
+    "piece of rotten meat",
+    "bear",
+    "ton of bricks")
 
 RUNS_STR = (
     "Runs to Thanos..",
@@ -763,34 +835,188 @@ EMOJIS = (
 DICE_EMO = ("🎯", "🎲")
 
 ZALG_LIST = (
-    ("̖", " ̗", " ̘", " ̙", " ̜", " ̝", " ̞", " ̟", " ̠", " ̤", " ̥", " ̦", " ̩", " ̪", " ̫",
-     " ̬", " ̭", " ̮", " ̯", " ̰", " ̱", " ̲", " ̳", " ̹", " ̺", " ̻", " ̼", " ͅ", " ͇",
-     " ͈", " ͉", " ͍", " ͎", " ͓", " ͔", " ͕", " ͖", " ͙", " ͚", " "),
-
-    (" ̍", " ̎", " ̄", " ̅", " ̿", " ̑", " ̆", " ̐", " ͒", " ͗", " ͑", " ̇", " ̈", " ̊",
-     " ͂", " ̓", " ̈́", " ͊", " ͋", " ͌", " ̃", " ̂", " ̌", " ͐", " ́", " ̋", " ̏", " ̽",
-     " ̉", " ͣ", " ͤ", " ͥ", " ͦ", " ͧ", " ͨ", " ͩ", " ͪ", " ͫ", " ͬ", " ͭ", " ͮ", " ͯ",
-     " ̾", " ͛", " ͆", " ̚"),
-
-    (" ̕", " ̛", " ̀", " ́", " ͘", " ̡", " ̢", " ̧", " ̨", " ̴", " ̵", " ̶", " ͜",
-     " ͝", " ͞", " ͟", " ͠", " ͢", " ̸", " ̷", " ͡")
-)
+    ("̖",
+     " ̗",
+     " ̘",
+     " ̙",
+     " ̜",
+     " ̝",
+     " ̞",
+     " ̟",
+     " ̠",
+     " ̤",
+     " ̥",
+     " ̦",
+     " ̩",
+     " ̪",
+     " ̫",
+     " ̬",
+     " ̭",
+     " ̮",
+     " ̯",
+     " ̰",
+     " ̱",
+     " ̲",
+     " ̳",
+     " ̹",
+     " ̺",
+     " ̻",
+     " ̼",
+     " ͅ",
+     " ͇",
+     " ͈",
+     " ͉",
+     " ͍",
+     " ͎",
+     " ͓",
+     " ͔",
+     " ͕",
+     " ͖",
+     " ͙",
+     " ͚",
+     " "),
+    (" ̍",
+     " ̎",
+     " ̄",
+     " ̅",
+     " ̿",
+     " ̑",
+     " ̆",
+     " ̐",
+     " ͒",
+     " ͗",
+     " ͑",
+     " ̇",
+     " ̈",
+     " ̊",
+     " ͂",
+     " ̓",
+     " ̈́",
+     " ͊",
+     " ͋",
+     " ͌",
+     " ̃",
+     " ̂",
+     " ̌",
+     " ͐",
+     " ́",
+     " ̋",
+     " ̏",
+     " ̽",
+     " ̉",
+     " ͣ",
+     " ͤ",
+     " ͥ",
+     " ͦ",
+     " ͧ",
+     " ͨ",
+     " ͩ",
+     " ͪ",
+     " ͫ",
+     " ͬ",
+     " ͭ",
+     " ͮ",
+     " ͯ",
+     " ̾",
+     " ͛",
+     " ͆",
+     " ̚"),
+    (" ̕",
+     " ̛",
+     " ̀",
+     " ́",
+     " ͘",
+     " ̡",
+     " ̢",
+     " ̧",
+     " ̨",
+     " ̴",
+     " ̵",
+     " ̶",
+     " ͜",
+     " ͝",
+     " ͞",
+     " ͟",
+     " ͠",
+     " ͢",
+     " ̸",
+     " ̷",
+     " ͡"))
 
 UWUS = (
-    "(・`ω´・)", ";;w;;", "owo", "UwU", ">w<", "^w^", r"\(^o\) (/o^)/", "( ^ _ ^)∠☆", "(ô_ô)",
-    "~:o", ";-;", "(*^*)", "(>_", "(♥_♥)", "*(^O^)*", "((+_+))")
+    "(・`ω´・)",
+    ";;w;;",
+    "owo",
+    "UwU",
+    ">w<",
+    "^w^",
+    r"\(^o\) (/o^)/",
+    "( ^ _ ^)∠☆",
+    "(ô_ô)",
+    "~:o",
+    ";-;",
+    "(*^*)",
+    "(>_",
+    "(♥_♥)",
+    "*(^O^)*",
+    "((+_+))")
 
 SHGS = (
-    "┐(´д｀)┌", "┐(´～｀)┌", "┐(´ー｀)┌", "┐(￣ヘ￣)┌", "╮(╯∀╰)╭", "╮(╯_╰)╭", "┐(´д`)┌", "┐(´∀｀)┌",
-    "ʅ(́◡◝)ʃ", "┐(ﾟ～ﾟ)┌", "┐('д')┌", "┐(‘～`;)┌", "ヘ(´－｀;)ヘ", "┐( -“-)┌", "ʅ（´◔౪◔）ʃ",
-    "ヽ(゜～゜o)ノ", "ヽ(~～~ )ノ", "┐(~ー~;)┌", "┐(-。ー;)┌", r"¯\_(ツ)_/¯", r"¯\_(⊙_ʖ⊙)_/¯",
-    r"¯\_༼ ಥ ‿ ಥ ༽_/¯", "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ")
+    "┐(´д｀)┌",
+    "┐(´～｀)┌",
+    "┐(´ー｀)┌",
+    "┐(￣ヘ￣)┌",
+    "╮(╯∀╰)╭",
+    "╮(╯_╰)╭",
+    "┐(´д`)┌",
+    "┐(´∀｀)┌",
+    "ʅ(́◡◝)ʃ",
+    "┐(ﾟ～ﾟ)┌",
+    "┐('д')┌",
+    "┐(‘～`;)┌",
+    "ヘ(´－｀;)ヘ",
+    "┐( -“-)┌",
+    "ʅ（´◔౪◔）ʃ",
+    "ヽ(゜～゜o)ノ",
+    "ヽ(~～~ )ノ",
+    "┐(~ー~;)┌",
+    "┐(-。ー;)┌",
+    r"¯\_(ツ)_/¯",
+    r"¯\_(⊙_ʖ⊙)_/¯",
+    r"¯\_༼ ಥ ‿ ಥ ༽_/¯",
+    "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ")
 
 CRI = (
-    "أ‿أ", "╥﹏╥", "(;﹏;)", "(ToT)", "(┳Д┳)", "(ಥ﹏ಥ)", "（；へ：）", "(T＿T)", "（πーπ）", "(Ｔ▽Ｔ)",
-    "(⋟﹏⋞)", "（ｉДｉ）", "(´Д⊂ヽ", "(;Д;)", "（>﹏<）", "(TдT)", "(つ﹏⊂)", "༼☯﹏☯༽", "(ノ﹏ヽ)",
-    "(ノAヽ)", "(╥_╥)", "(T⌓T)", "(༎ຶ⌑༎ຶ)", "(☍﹏⁰)｡", "(ಥ_ʖಥ)", "(つд⊂)", "(≖͞_≖̥)", "(இ﹏இ`｡)",
-    "༼ಢ_ಢ༽", "༼ ༎ຶ ෴ ༎ຶ༽")
+    "أ‿أ",
+    "╥﹏╥",
+    "(;﹏;)",
+    "(ToT)",
+    "(┳Д┳)",
+    "(ಥ﹏ಥ)",
+    "（；へ：）",
+    "(T＿T)",
+    "（πーπ）",
+    "(Ｔ▽Ｔ)",
+    "(⋟﹏⋞)",
+    "（ｉДｉ）",
+    "(´Д⊂ヽ",
+    "(;Д;)",
+    "（>﹏<）",
+    "(TдT)",
+    "(つ﹏⊂)",
+    "༼☯﹏☯༽",
+    "(ノ﹏ヽ)",
+    "(ノAヽ)",
+    "(╥_╥)",
+    "(T⌓T)",
+    "(༎ຶ⌑༎ຶ)",
+    "(☍﹏⁰)｡",
+    "(ಥ_ʖಥ)",
+    "(つд⊂)",
+    "(≖͞_≖̥)",
+    "(இ﹏இ`｡)",
+    "༼ಢ_ಢ༽",
+    "༼ ༎ຶ ෴ ༎ຶ༽")
 
 FACEREACTS = (
     "ʘ‿ʘ", "ヾ(-_- )ゞ", "(っ˘ڡ˘ς)", "(´ж｀ς)", "( ಠ ʖ̯ ಠ)", "(° ͜ʖ͡°)╭∩╮", "(ᵟຶ︵ ᵟຶ)", "(งツ)ว",
@@ -810,19 +1036,46 @@ FACEREACTS = (
     r"¯\_(ツ)_/¯", "( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)", "ʕ•ᴥ•ʔ", "(▀̿Ĺ̯▀̿ ̿)", "(ง ͠° ͟ل͜ ͡°)ง",
     "༼ つ ◕_◕ ༽つ", "ಠ_ಠ", "(☞ ͡° ͜ʖ ͡°)☞", "¯_༼ ି ~ ି ༽_/¯", "c༼ ͡° ͜ʖ ͡° ༽⊃")
 
-HAPPY = ("( ͡° ͜ʖ ͡°)", "(ʘ‿ʘ)", "(✿´‿`)", "=͟͟͞͞٩(๑☉ᴗ☉)੭ु⁾⁾", "(*⌒▽⌒*)θ～♪",
-         "°˖✧◝(⁰▿⁰)◜✧˖°", "✌(-‿-)✌", "⌒°(❛ᴗ❛)°⌒", "(ﾟ<|＼(･ω･)／|>ﾟ)", "ヾ(o✪‿✪o)ｼ")
+HAPPY = (
+    "( ͡° ͜ʖ ͡°)",
+    "(ʘ‿ʘ)",
+    "(✿´‿`)",
+    "=͟͟͞͞٩(๑☉ᴗ☉)੭ु⁾⁾",
+    "(*⌒▽⌒*)θ～♪",
+    "°˖✧◝(⁰▿⁰)◜✧˖°",
+    "✌(-‿-)✌",
+    "⌒°(❛ᴗ❛)°⌒",
+    "(ﾟ<|＼(･ω･)／|>ﾟ)",
+    "ヾ(o✪‿✪o)ｼ")
 
 THINKING = ("(҂⌣̀_⌣́)", "（；¬＿¬)", "(-｡-;", "┌[ O ʖ̯ O ]┐", "〳 ͡° Ĺ̯ ͡° 〵")
 
 WAVING = (
-    "(ノ^∇^)", "(;-_-)/", "@(o・ェ・)@ノ", "ヾ(＾-＾)ノ", "ヾ(◍’౪`◍)ﾉﾞ♡", "(ό‿ὸ)ﾉ", "(ヾ(´・ω・｀)")
+    "(ノ^∇^)",
+    "(;-_-)/",
+    "@(o・ェ・)@ノ",
+    "ヾ(＾-＾)ノ",
+    "ヾ(◍’౪`◍)ﾉﾞ♡",
+    "(ό‿ὸ)ﾉ",
+    "(ヾ(´・ω・｀)")
 
-WTF = ("༎ຶ‿༎ຶ", "(‿ˠ‿)", "╰U╯☜(◉ɷ◉ )", "(;´༎ຶ益༎ຶ`)♡", "╭∩╮(︶ε︶*)chu", "( ＾◡＾)っ (‿|‿)")
+WTF = (
+    "༎ຶ‿༎ຶ",
+    "(‿ˠ‿)",
+    "╰U╯☜(◉ɷ◉ )",
+    "(;´༎ຶ益༎ຶ`)♡",
+    "╭∩╮(︶ε︶*)chu",
+    "( ＾◡＾)っ (‿|‿)")
 
 LOVE = ("乂❤‿❤乂", "(｡♥‿♥｡)", "( ͡~ ͜ʖ ͡°)", "໒( ♥ ◡ ♥ )७", "༼♥ل͜♥༽")
 
-CONFUSED = ("(・_・ヾ", "｢(ﾟﾍﾟ)", "﴾͡๏̯͡๏﴿", "(￣■￣;)!?", "▐ ˵ ͠° (oo) °͠ ˵ ▐", "(-_-)ゞ゛")
+CONFUSED = (
+    "(・_・ヾ",
+    "｢(ﾟﾍﾟ)",
+    "﴾͡๏̯͡๏﴿",
+    "(￣■￣;)!?",
+    "▐ ˵ ͠° (oo) °͠ ˵ ▐",
+    "(-_-)ゞ゛")
 
 DEAD = ("(✖╭╮✖)", "✖‿✖", "(+_+)", "(✖﹏✖)", "∑(✘Д✘๑)")
 

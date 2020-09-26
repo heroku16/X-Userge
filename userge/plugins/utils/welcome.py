@@ -248,7 +248,8 @@ async def raw_view(message: Message, name, collection):
 
 
 async def raw_say(message: Message, name, collection):
-    users = message.new_chat_members if name == "Welcome" else [message.left_chat_member]
+    users = message.new_chat_members if name == "Welcome" else [
+        message.left_chat_member]
     for user in users:
         found = await collection.find_one({'_id': message.chat.id})
         if 'mid' not in found:

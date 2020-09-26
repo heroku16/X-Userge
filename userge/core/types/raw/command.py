@@ -23,6 +23,7 @@ from ... import client as _client  # pylint: disable=unused-import
 
 class Command(Filter):
     """ command class """
+
     def __init__(self, about: str, trigger: str, pattern: str,
                  **kwargs: Union['_client.Userge', int, str, bool]) -> None:
         self.about = about
@@ -59,18 +60,25 @@ class Command(Filter):
                 and not (m.chat and m.chat.type == "channel" and m.edit_date)
                 and (m.text and m.text.startswith(trigger) if trigger else True))
             incoming_flt = filters.create(
-                lambda _, __, m:
-                not m.outgoing
-                and m.from_user and m.text
-                and ((m.from_user.id == Config.OWNER_ID)
-                     or (Config.SUDO_ENABLED and (m.from_user.id in Config.SUDO_USERS)
-                         and (cname.lstrip(trigger) in Config.ALLOWED_COMMANDS)))
-                and (m.text.startswith(Config.SUDO_TRIGGER) if trigger else True))
+                lambda _, __, m: not m.outgoing and m.from_user and m.text and (
+                    (m.from_user.id == Config.OWNER_ID) or (
+                        Config.SUDO_ENABLED and (
+                            m.from_user.id in Config.SUDO_USERS) and (
+                            cname.lstrip(trigger) in Config.ALLOWED_COMMANDS))) and (
+                    m.text.startswith(
+                        Config.SUDO_TRIGGER) if trigger else True))
             filters_ = filters_ & (outgoing_flt | incoming_flt)
-        return cls(_format_about(about), trigger, pattern, filters=filters_, name=cname, **kwargs)
+        return cls(
+            _format_about(about),
+            trigger,
+            pattern,
+            filters=filters_,
+            name=cname,
+            **kwargs)
 
 
-def _format_about(about: Union[str, Dict[str, Union[str, List[str], Dict[str, str]]]]) -> str:
+def _format_about(
+        about: Union[str, Dict[str, Union[str, List[str], Dict[str, str]]]]) -> str:
     if isinstance(about, dict):
         tmp_chelp = ''
         if 'header' in about and isinstance(about['header'], str):

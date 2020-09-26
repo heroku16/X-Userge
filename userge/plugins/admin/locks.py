@@ -18,15 +18,27 @@ CHANNEL = userge.getCLogger(__name__)
 
 
 @userge.on_cmd(
-    "lock", about={
+    "lock",
+    about={
         'header': "use this to lock group permissions",
         'description': "Allows you to lock some common permission types in the chat.\n"
-                       "[NOTE: Requires proper admin rights in the chat!!!]",
+        "[NOTE: Requires proper admin rights in the chat!!!]",
         'types': [
-            'all', 'msg', 'media', 'polls', 'invite', 'pin', 'info',
-            'webprev', 'inlinebots', 'animations', 'games', 'stickers'],
+            'all',
+            'msg',
+            'media',
+            'polls',
+            'invite',
+            'pin',
+            'info',
+            'webprev',
+            'inlinebots',
+            'animations',
+            'games',
+            'stickers'],
         'examples': "{tr}lock [all | type]"},
-    allow_channels=False, check_restrict_perm=True)
+    allow_channels=False,
+    check_restrict_perm=True)
 async def lock_perm(message: Message):
     """ lock chat permissions from tg group """
     lock_type = message.input_str
@@ -229,10 +241,12 @@ async def unlock_perm(message: Message):
             f"**ERROR:** `{e_f}`", del_in=5)
 
 
-@userge.on_cmd("vperm", about={
-    'header': "use this to view group permissions",
-    'description': "Allows you to view permission types on/off status in the chat."},
-    allow_channels=False, allow_bots=False, allow_private=False)
+@userge.on_cmd("vperm",
+               about={'header': "use this to view group permissions",
+                      'description': "Allows you to view permission types on/off status in the chat."},
+               allow_channels=False,
+               allow_bots=False,
+               allow_private=False)
 async def view_perm(message: Message):
     """ check chat permissions from tg group """
     await message.edit("`Checking group permissions... Hang on!! ⏳`")
@@ -244,10 +258,13 @@ async def view_perm(message: Message):
     vmsg = convert_to_emoji(message.chat.permissions.can_send_messages)
     vmedia = convert_to_emoji(message.chat.permissions.can_send_media_messages)
     vstickers = convert_to_emoji(message.chat.permissions.can_send_stickers)
-    vanimations = convert_to_emoji(message.chat.permissions.can_send_animations)
+    vanimations = convert_to_emoji(
+        message.chat.permissions.can_send_animations)
     vgames = convert_to_emoji(message.chat.permissions.can_send_games)
-    vinlinebots = convert_to_emoji(message.chat.permissions.can_use_inline_bots)
-    vwebprev = convert_to_emoji(message.chat.permissions.can_add_web_page_previews)
+    vinlinebots = convert_to_emoji(
+        message.chat.permissions.can_use_inline_bots)
+    vwebprev = convert_to_emoji(
+        message.chat.permissions.can_add_web_page_previews)
     vpolls = convert_to_emoji(message.chat.permissions.can_send_polls)
     vinfo = convert_to_emoji(message.chat.permissions.can_change_info)
     vinvite = convert_to_emoji(message.chat.permissions.can_invite_users)

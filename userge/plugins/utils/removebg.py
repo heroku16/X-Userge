@@ -25,9 +25,8 @@ async def remove_background(message: Message):
         return
     await message.edit("Analysing...")
     replied = message.reply_to_message
-    if (replied and replied.media
-            and (replied.photo
-                 or (replied.document and "image" in replied.document.mime_type))):
+    if (replied and replied.media and (replied.photo or (
+            replied.document and "image" in replied.document.mime_type))):
         start_t = datetime.now()
         if os.path.exists(IMG_PATH):
             os.remove(IMG_PATH)

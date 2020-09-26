@@ -20,11 +20,11 @@ from userge.utils import progress, humanbytes
 LOGGER = userge.getLogger(__name__)
 
 
-@userge.on_cmd("download", about={
-    'header': "Download files to server",
-    'usage': "{tr}download [url | reply to telegram media]",
-    'examples': "{tr}download https://speed.hetzner.de/100MB.bin | testing upload.bin"},
-    check_downpath=True)
+@userge.on_cmd("download",
+               about={'header': "Download files to server",
+                      'usage': "{tr}download [url | reply to telegram media]",
+                      'examples': "{tr}download https://speed.hetzner.de/100MB.bin | testing upload.bin"},
+               check_downpath=True)
 async def down_load_media(message: Message):
     await message.edit("`Trying to Download...`")
     if message.reply_to_message and message.reply_to_message.media:

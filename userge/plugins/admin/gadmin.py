@@ -115,12 +115,13 @@ async def demote_usr(message: Message):
         await message.edit(f"`something went wrong! 🤔`\n\n**ERROR:** `{e_f}`", del_in=5)
 
 
-@userge.on_cmd("ban", about={
-    'header': "use this to ban group members",
-    'description': "Ban member from supergroup.\n"
-                   "[NOTE: Requires proper admin rights in the chat!!!]",
-    'examples': "{tr}ban [username | userid] or [reply to user] :reason (optional)"},
-    allow_channels=False, check_restrict_perm=True)
+@userge.on_cmd("ban",
+               about={'header': "use this to ban group members",
+                      'description': "Ban member from supergroup.\n"
+                      "[NOTE: Requires proper admin rights in the chat!!!]",
+                      'examples': "{tr}ban [username | userid] or [reply to user] :reason (optional)"},
+               allow_channels=False,
+               check_restrict_perm=True)
 async def ban_usr(message: Message):
     """ ban user from tg group """
     reason = ""
@@ -187,12 +188,13 @@ async def unban_usr(message: Message):
         await message.edit(f"`something went wrong! 🤔`\n\n**ERROR:** `{e_f}`", del_in=5)
 
 
-@userge.on_cmd("kick", about={
-    'header': "use this to kick group members",
-    'description': "Kick member from supergroup. member can rejoin the group again if they want.\n"
-                   "[NOTE: Requires proper admin rights in the chat!!!]",
-    'examples': "{tr}kick [username | userid] or [reply to user]"},
-    allow_channels=False, check_restrict_perm=True)
+@userge.on_cmd("kick",
+               about={'header': "use this to kick group members",
+                      'description': "Kick member from supergroup. member can rejoin the group again if they want.\n"
+                      "[NOTE: Requires proper admin rights in the chat!!!]",
+                      'examples': "{tr}kick [username | userid] or [reply to user]"},
+               allow_channels=False,
+               check_restrict_perm=True)
 async def kick_usr(message: Message):
     """ kick user from tg group """
     chat_id = message.chat.id
@@ -352,15 +354,16 @@ async def unmute_usr(message: Message):
         await message.edit(f"`something went wrong!` 🤔\n\n**ERROR:** `{e_f}`", del_in=5)
 
 
-@userge.on_cmd("zombies", about={
-    'header': "use this to clean zombie accounts",
-    'description': "check & remove zombie (deleted) accounts from supergroup.\n"
-                   "[NOTE: Requires proper admin rights in the chat!!!]",
-    'flags': {'-c': "clean"},
-    'examples': [
-        "{tr}zombies [check deleted accounts in group]",
-        "{tr}zombies -c [remove deleted accounts from group]"]},
-    allow_channels=False, allow_bots=False, allow_private=False)
+@userge.on_cmd("zombies",
+               about={'header': "use this to clean zombie accounts",
+                      'description': "check & remove zombie (deleted) accounts from supergroup.\n"
+                      "[NOTE: Requires proper admin rights in the chat!!!]",
+                      'flags': {'-c': "clean"},
+                      'examples': ["{tr}zombies [check deleted accounts in group]",
+                                   "{tr}zombies -c [remove deleted accounts from group]"]},
+               allow_channels=False,
+               allow_bots=False,
+               allow_private=False)
 async def zombie_clean(message: Message):
     """ remove deleted accounts from tg group """
     chat_id = message.chat.id

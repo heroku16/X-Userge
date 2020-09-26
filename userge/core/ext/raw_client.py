@@ -23,7 +23,10 @@ class RawClient(Client):
     DUAL_MODE = False
     LAST_OUTGOING_TIME = time.time()
 
-    def __init__(self, bot: Optional['userge.core.client._UsergeBot'] = None, **kwargs) -> None:
+    def __init__(
+            self,
+            bot: Optional['userge.core.client._UsergeBot'] = None,
+            **kwargs) -> None:
         self._bot = bot
         super().__init__(**kwargs)
         self._channel = userge.core.types.new.ChannelLogger(self, "CORE")

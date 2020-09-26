@@ -19,7 +19,11 @@ CHANNEL = userge.getCLogger(__name__)
 NOTES_DATA: Dict[int, Dict[str, Tuple[int, bool]]] = {}
 
 
-def _note_updater(chat_id: int, name: str, message_id: int, is_global: bool) -> None:
+def _note_updater(
+        chat_id: int,
+        name: str,
+        message_id: int,
+        is_global: bool) -> None:
     if chat_id in NOTES_DATA:
         NOTES_DATA[chat_id].update({name: (message_id, is_global)})
     else:
@@ -127,8 +131,10 @@ async def mv_to_local_note(message: Message) -> None:
     elif await NOTES_COLLECTION.find_one_and_update(
             {'chat_id': message.chat.id, 'name': notename, 'global': True},
             {"$set": {'global': False}}):
-        out = "`Successfully transferred to local note:` **{}**".format(notename)
-        NOTES_DATA[message.chat.id][notename] = (NOTES_DATA[message.chat.id][notename][0], False)
+        out = "`Successfully transferred to local note:` **{}**".format(
+            notename)
+        NOTES_DATA[message.chat.id][notename] = (
+            NOTES_DATA[message.chat.id][notename][0], False)
     else:
         out = "`Couldn't find global note:` **{}**".format(notename)
     await message.edit(text=out, del_in=3)
@@ -148,8 +154,10 @@ async def mv_to_global_note(message: Message) -> None:
     elif await NOTES_COLLECTION.find_one_and_update(
             {'chat_id': message.chat.id, 'name': notename, 'global': False},
             {"$set": {'global': True}}):
-        out = "`Successfully transferred to global note:` **{}**".format(notename)
-        NOTES_DATA[message.chat.id][notename] = (NOTES_DATA[message.chat.id][notename][0], True)
+        out = "`Successfully transferred to global note:` **{}**".format(
+            notename)
+        NOTES_DATA[message.chat.id][notename] = (
+            NOTES_DATA[message.chat.id][notename][0], True)
     else:
         out = "`Couldn't find local note:` **{}**".format(notename)
     await message.edit(text=out, del_in=3)

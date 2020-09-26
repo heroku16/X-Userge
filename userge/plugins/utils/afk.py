@@ -34,14 +34,16 @@ async def _init() -> None:
         REASON = data['data']
         TIME = data['time'] if 'time' in data else 0
     async for _user in AFK_COLLECTION.find():
-        USERS.update({_user['_id']:  [_user['pcount'], _user['gcount'], _user['men']]})
+        USERS.update(
+            {_user['_id']: [_user['pcount'], _user['gcount'], _user['men']]})
 
 
-@userge.on_cmd("afk", about={
-    'header': "Set to AFK mode",
-    'description': "Sets your status as AFK. Responds to anyone who tags/PM's.\n"
-                   "you telling you are AFK. Switches off AFK when you type back anything.",
-    'usage': "{tr}afk or {tr}afk [reason]"}, allow_channels=False)
+@userge.on_cmd("afk",
+               about={'header': "Set to AFK mode",
+                      'description': "Sets your status as AFK. Responds to anyone who tags/PM's.\n"
+                      "you telling you are AFK. Switches off AFK when you type back anything.",
+                      'usage': "{tr}afk or {tr}afk [reason]"},
+               allow_channels=False)
 async def active_afk(message: Message) -> None:
     """ turn on or off afk mode """
     global REASON, IS_AFK, TIME  # pylint: disable=global-statement
@@ -56,9 +58,14 @@ async def active_afk(message: Message) -> None:
             {'_id': 'AFK'}, {"$set": {'on': True, 'data': REASON, 'time': TIME}}, upsert=True))
 
 
-@userge.on_filters(IS_AFK_FILTER & ~filters.me & ~filters.bot & ~filters.edited & (
-    filters.mentioned | (filters.private & ~filters.service & (
-        filters.create(lambda _, __, ___: Config.ALLOW_ALL_PMS) | Config.ALLOWED_CHATS))),
+@userge.on_filters(
+    IS_AFK_FILTER & ~filters.me & ~filters.bot & ~filters.edited & (
+        filters.mentioned | (
+            filters.private & ~filters.service & (
+                filters.create(
+                    lambda _,
+                    __,
+                    ___: Config.ALLOW_ALL_PMS) | Config.ALLOWED_CHATS))),
     allow_via_bot=False)
 async def handle_afk_incomming(message: Message) -> None:
     """ handle incomming messages when you afk """
@@ -70,8 +77,9 @@ async def handle_afk_incomming(message: Message) -> None:
     if user_id in USERS:
         if not (USERS[user_id][0] + USERS[user_id][1]) % randint(2, 4):
             if REASON:
-                out_str = (f"Saya **OFFLINE** Sekarang.\nKarena: <code>{REASON}</code>\n"
-                           f"Sejak: `{afk_time} Lalu`")
+                out_str = (
+                    f"Saya **OFFLINE** Sekarang.\nKarena: <code>{REASON}</code>\n"
+                    f"Sejak: `{afk_time} Lalu`")
             else:
                 out_str = choice(AFK_REASONS)
             coro_list.append(message.reply(out_str))
@@ -81,8 +89,9 @@ async def handle_afk_incomming(message: Message) -> None:
             USERS[user_id][1] += 1
     else:
         if REASON:
-            out_str = (f"Saya **OFFLINE** Sekarang.\nKarena: <code>{REASON}</code>\n"
-                       f"Sejak: `{afk_time} Lalu`")
+            out_str = (
+                f"Saya **OFFLINE** Sekarang.\nKarena: <code>{REASON}</code>\n"
+                f"Sejak: `{afk_time} Lalu`")
         else:
             out_str = choice(AFK_REASONS)
         coro_list.append(message.reply(out_str))
@@ -95,11 +104,12 @@ async def handle_afk_incomming(message: Message) -> None:
             f"#PRIVATE\n{user_dict['mention']} send you\n\n"
             f"{message.text}"))
     else:
-        coro_list.append(CHANNEL.log(
-            "#GROUP\n"
-            f"{user_dict['mention']} tagged you in [{chat.title}](http://t.me/{chat.username})\n\n"
-            f"{message.text}\n\n"
-            f"[goto_msg](https://t.me/c/{str(chat.id)[4:]}/{message.message_id})"))
+        coro_list.append(
+            CHANNEL.log(
+                "#GROUP\n"
+                f"{user_dict['mention']} tagged you in [{chat.title}](http://t.me/{chat.username})\n\n"
+                f"{message.text}\n\n"
+                f"[goto_msg](https://t.me/c/{str(chat.id)[4:]}/{message.message_id})"))
     coro_list.append(AFK_COLLECTION.update_one({'_id': user_id},
                                                {"$set": {
                                                    'pcount': USERS[user_id][0],
@@ -109,7 +119,8 @@ async def handle_afk_incomming(message: Message) -> None:
     await asyncio.gather(*coro_list)
 
 
-@userge.on_filters(IS_AFK_FILTER & filters.outgoing, group=-1, allow_via_bot=False)
+@userge.on_filters(IS_AFK_FILTER & filters.outgoing,
+                   group=-1, allow_via_bot=False)
 async def handle_afk_outgoing(message: Message) -> None:
     """ handle outgoing messages when you afk """
     global IS_AFK  # pylint: disable=global-statement
@@ -129,9 +140,11 @@ async def handle_afk_outgoing(message: Message) -> None:
             if gcount:
                 g_msg += f"👥 {men} ✉️ **{gcount}**\n"
                 g_count += gcount
-        coro_list.append(replied.edit(
-            f"`Kamu Mempunyai {p_count + g_count} Pesan Belum di Baca. "
-            f"Check log for more details.`\n\n**AFK time** : __{afk_time}__", del_in=3))
+        coro_list.append(
+            replied.edit(
+                f"`Kamu Mempunyai {p_count + g_count} Pesan Belum di Baca. "
+                f"Check log for more details.`\n\n**AFK time** : __{afk_time}__",
+                del_in=3))
         out_str = f"You've recieved **{p_count + g_count}** messages " + \
             f"from **{len(USERS)}** users while you were away!\n\n**AFK time** : __{afk_time}__\n"
         if p_count:

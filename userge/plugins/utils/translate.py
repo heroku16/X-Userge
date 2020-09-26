@@ -14,21 +14,27 @@ from googletrans import Translator, LANGUAGES
 from userge import userge, Message, Config
 
 
-@userge.on_cmd("tr", about={
-    'header': "Translate the given text using Google Translate",
-    'supported languages': dumps(LANGUAGES, indent=4, sort_keys=True),
-    'usage': "from english to sinhala\n"
-             "{tr}tr -en -si i am userge\n\n"
-             "from auto detected language to sinhala\n"
-             "{tr}tr -si i am userge\n\n"
-             "from auto detected language to preferred\n"
-             "{tr}tr i am userge\n\n"
-             "reply to message you want to translate from english to sinhala\n"
-             "{tr}tr -en -si\n\n"
-             "reply to message you want to translate from auto detected language to sinhala\n"
-             "{tr}tr -si\n\n"
-             "reply to message you want to translate from auto detected language to preferred\n"
-             "{tr}tr"}, del_pre=True)
+@userge.on_cmd(
+    "tr",
+    about={
+        'header': "Translate the given text using Google Translate",
+        'supported languages': dumps(
+            LANGUAGES,
+            indent=4,
+            sort_keys=True),
+        'usage': "from english to sinhala\n"
+        "{tr}tr -en -si i am userge\n\n"
+        "from auto detected language to sinhala\n"
+        "{tr}tr -si i am userge\n\n"
+        "from auto detected language to preferred\n"
+        "{tr}tr i am userge\n\n"
+        "reply to message you want to translate from english to sinhala\n"
+        "{tr}tr -en -si\n\n"
+        "reply to message you want to translate from auto detected language to sinhala\n"
+        "{tr}tr -si\n\n"
+        "reply to message you want to translate from auto detected language to preferred\n"
+        "{tr}tr"},
+    del_pre=True)
 async def translateme(message: Message):
     translator = Translator()
     text = message.filtered_input_str

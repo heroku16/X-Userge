@@ -9,7 +9,8 @@
 from userge import userge, Message
 
 
-@userge.on_cmd("cancel", about={'header': "Reply this to message you want to cancel"})
+@userge.on_cmd("cancel",
+               about={'header': "Reply this to message you want to cancel"})
 async def cancel_(message: Message):
     replied = message.reply_to_message
     if replied:

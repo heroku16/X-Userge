@@ -14,10 +14,10 @@ from userge import userge, Message
 from userge.utils import runcmd
 
 
-@userge.on_cmd("hash", about={
-    'header': "find hash of text",
-    'description': "Find the md5, sha1, sha256, sha512 of the string when written into a txt file",
-    'usage': "{tr}hash [text or reply to msg]"})
+@userge.on_cmd("hash",
+               about={'header': "find hash of text",
+                      'description': "Find the md5, sha1, sha256, sha512 of the string when written into a txt file",
+                      'usage': "{tr}hash [text or reply to msg]"})
 async def gethash(message: Message):
     """ find hash of text """
     input_ = message.input_or_reply_str
@@ -50,7 +50,13 @@ async def endecrypt(message: Message):
         await message.err("input not found!")
         return
     if 'd' in message.flags:
-        out = str(pybase64.b64decode(bytes(input_, "utf-8"), validate=True))[2:-1]
+        out = str(
+            pybase64.b64decode(
+                bytes(
+                    input_,
+                    "utf-8"),
+                validate=True))[
+            2:-1]
         await message.edit(f"**Decoded** : `{out}`")
     else:
         out = str(pybase64.b64encode(bytes(input_, "utf-8")))[2:-1]

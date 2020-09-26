@@ -17,7 +17,8 @@ from pyrogram.raw import functions
 from ...ext import RawClient, RawMessage
 
 
-class SendReadAcknowledge(RawClient):  # pylint: disable=missing-class-docstring
+class SendReadAcknowledge(
+        RawClient):  # pylint: disable=missing-class-docstring
     async def send_read_acknowledge(self,
                                     chat_id: Union[int, str],
                                     message: Union[List[RawMessage],

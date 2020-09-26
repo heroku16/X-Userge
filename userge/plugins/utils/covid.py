@@ -11,15 +11,15 @@ import aiohttp
 from userge import userge, Message
 
 
-@userge.on_cmd("covid", about={
-    'header': "see covid details",
-    'description': "The current real time situation of the COVID-19 patients reported in worldwide",
-    'usage': "{tr}covid for global\n{tr}covid [country]",
-    'countries': "Sri Lanka, USA, Spain, Italy, France, Germany, UK, Turkey, Iran', China, "
-                 "Russia, Brazil, Belgium, Canada, Netherlands, Switzerland, India, "
-                 "Portugal, Ecuador, Peru, Ireland, Sweden, Saudi Arabia, Austria, "
-                 "Israel, Japan, Chile, Singapore, Mexico, Pakistan, "
-                 "Poland, S. Korea, Romania, UAE......"})
+@userge.on_cmd("covid",
+               about={'header': "see covid details",
+                      'description': "The current real time situation of the COVID-19 patients reported in worldwide",
+                      'usage': "{tr}covid for global\n{tr}covid [country]",
+                      'countries': "Sri Lanka, USA, Spain, Italy, France, Germany, UK, Turkey, Iran', China, "
+                      "Russia, Brazil, Belgium, Canada, Netherlands, Switzerland, India, "
+                      "Portugal, Ecuador, Peru, Ireland, Sweden, Saudi Arabia, Austria, "
+                      "Israel, Japan, Chile, Singapore, Mexico, Pakistan, "
+                      "Poland, S. Korea, Romania, UAE......"})
 async def covid(message: Message):
     def fill(nw_c, nw_d, ac_c, cr_c, t_c, t_d, t_r, name, rank):
         output_l = f'''
@@ -57,7 +57,16 @@ async def covid(message: Message):
             t_d = global_data['total_deaths']
             t_r = global_data['total_recovered']
 
-            output = fill(nw_c, nw_d, ac_c, cr_c, t_c, t_d, t_r, "the world", None)
+            output = fill(
+                nw_c,
+                nw_d,
+                ac_c,
+                cr_c,
+                t_c,
+                t_d,
+                t_r,
+                "the world",
+                None)
             await message.edit(output, disable_web_page_preview=True)
         except Exception:
             await message.edit("Covid API is currently down!\nPlease Try Again Later")

@@ -75,7 +75,8 @@ async def set_welcome_timeout(message: Message):
         await message.edit("`Auto welcome/left message deletion disabled!`", del_in=3)
 
 
-@userge.on_cmd("vwelto", about={'header': "View auto welcome/left message delete timeout"})
+@userge.on_cmd("vwelto",
+               about={'header': "View auto welcome/left message delete timeout"})
 async def view_welcome_timeout(message: Message):
     """ view welcome/left timeout """
     if Config.WELCOME_DELETE_TIMEOUT:
@@ -105,7 +106,8 @@ async def set_app_timeout(message: Message):
         f"`Set auto profile picture timeout as {t_o} seconds!`", del_in=3)
 
 
-@userge.on_cmd("vapicto", about={'header': "View auto profile picture timeout"})
+@userge.on_cmd("vapicto",
+               about={'header': "View auto profile picture timeout"})
 async def view_app_timeout(message: Message):
     """ view profile picture timeout """
     await message.edit(

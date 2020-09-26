@@ -35,7 +35,8 @@ _EMOJI_PATTERN = re.compile(
     "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
     "\U00002702-\U000027B0"  # Dingbats
     "]+")
-_BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\[buttonurl:(?:/{0,2})(.+?)(:same)?\])")
+_BTN_URL_REGEX = re.compile(
+    r"(\[([^\[]+?)\]\[buttonurl:(?:/{0,2})(.+?)(:same)?\])")
 
 
 # https://github.com/UsergeTeam/Userge-Plugins/blob/master/plugins/tweet.py
@@ -44,7 +45,8 @@ def demojify(string: str) -> str:
     return re.sub(_EMOJI_PATTERN, '', string)
 
 
-def get_file_id_and_ref(message: 'userge.Message') -> Tuple[Optional[str], Optional[str]]:
+def get_file_id_and_ref(
+        message: 'userge.Message') -> Tuple[Optional[str], Optional[str]]:
     """ get file_id and file_ref """
     file_ = message.audio or message.animation or message.photo \
         or message.sticker or message.voice or message.video_note \
@@ -109,9 +111,14 @@ async def runcmd(cmd: str) -> Tuple[str, str, int, int]:
 
 async def take_screen_shot(video_file: str, duration: int, path: str = '') -> Optional[str]:
     """ take a screenshot """
-    _LOG.info('[[[Extracting a frame from %s ||| Video duration => %s]]]', video_file, duration)
+    _LOG.info(
+        '[[[Extracting a frame from %s ||| Video duration => %s]]]',
+        video_file,
+        duration)
     ttl = duration // 2
-    thumb_image_path = path or os.path.join(userge.Config.DOWN_PATH, f"{basename(video_file)}.jpg")
+    thumb_image_path = path or os.path.join(
+        userge.Config.DOWN_PATH,
+        f"{basename(video_file)}.jpg")
     command = f"ffmpeg -ss {ttl} -i '{video_file}' -vframes 1 '{thumb_image_path}'"
     err = (await runcmd(command))[1]
     if err:
@@ -119,7 +126,8 @@ async def take_screen_shot(video_file: str, duration: int, path: str = '') -> Op
     return thumb_image_path if os.path.exists(thumb_image_path) else None
 
 
-def parse_buttons(markdown_note: str) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
+def parse_buttons(
+        markdown_note: str) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
     """ markdown_note to string and buttons """
     prev = 0
     note_data = ""
@@ -131,7 +139,11 @@ def parse_buttons(markdown_note: str) -> Tuple[str, Optional[InlineKeyboardMarku
             n_escapes += 1
             to_check -= 1
         if n_escapes % 2 == 0:
-            buttons.append((match.group(2), match.group(3), bool(match.group(4))))
+            buttons.append(
+                (match.group(2),
+                 match.group(3),
+                 bool(
+                    match.group(4))))
             note_data += markdown_note[prev:match.start(1)]
             prev = match.end(1)
         else:

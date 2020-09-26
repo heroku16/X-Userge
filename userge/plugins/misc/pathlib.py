@@ -33,6 +33,7 @@ _LOG = userge.getLogger(__name__)
 
 class _BaseLib:
     """ Base Class for PackLib and SCLib """
+
     def __init__(self) -> None:
         self._final_file_path = ""
         self._current = 0
@@ -97,6 +98,7 @@ class _BaseLib:
 
 class PackLib(_BaseLib):
     """ Class for PACK / UNPACK / LISTPACK (files / folders) """
+
     def __init__(self, file_path: str) -> None:
         self._file_path = file_path
         super().__init__()
@@ -172,7 +174,11 @@ class PackLib(_BaseLib):
             file_name += '.zip'
             p_type = ZipFile
         self._final_file_path = join(Config.DOWN_PATH, file_name)
-        pool.submit_thread(self._zip, p_type, file_paths, self._final_file_path)
+        pool.submit_thread(
+            self._zip,
+            p_type,
+            file_paths,
+            self._final_file_path)
 
     def unpack_path(self) -> None:
         """ UNPACK file path """
@@ -201,10 +207,12 @@ class PackLib(_BaseLib):
         """ Returns PACK info """
         if is_zipfile(self._file_path):
             with ZipFile(self._file_path, 'r') as z_f:
-                return tuple((z_.filename, z_.file_size) for z_ in z_f.infolist())
+                return tuple((z_.filename, z_.file_size)
+                             for z_ in z_f.infolist())
         elif is_rarfile(self._file_path):
             with RarFile(self._file_path, 'r') as r_f:
-                return tuple((r_.filename, r_.file_size) for r_ in r_f.infolist())
+                return tuple((r_.filename, r_.file_size)
+                             for r_ in r_f.infolist())
         else:
             with tar_open(self._file_path, 'r') as t_f:
                 return tuple((t_.name, t_.size) for t_ in t_f.getmembers())
@@ -212,11 +220,13 @@ class PackLib(_BaseLib):
     @staticmethod
     def is_supported(file_path: str) -> bool:
         """ Returns file is supported or not """
-        return is_zipfile(file_path) or is_tarfile(file_path) or is_rarfile(file_path)
+        return is_zipfile(file_path) or is_tarfile(
+            file_path) or is_rarfile(file_path)
 
 
 class SCLib(_BaseLib):
     """ Class for split / combine files """
+
     def __init__(self, file_path: str) -> None:
         self._chunk_size = 1024 * 1024
         self._s_time = time()
@@ -260,7 +270,9 @@ class SCLib(_BaseLib):
     def eta(self) -> str:
         """ Returns eta """
         return time_formatter(
-            (self._file_size - self._cmp_size) / self.speed if self.speed else 0)
+            (self._file_size -
+             self._cmp_size) /
+            self.speed if self.speed else 0)
 
     def _split_worker(self, times: int) -> None:
         try:
@@ -321,7 +333,9 @@ class SCLib(_BaseLib):
         times = int(ceil(split_size / self._chunk_size))
         self._total = int(ceil(self._file_size / split_size))
         self._final_file_path = join(
-            dirname(self._path), f"split_{basename(self._path).replace('.', '_')}")
+            dirname(
+                self._path),
+            f"split_{basename(self._path).replace('.', '_')}")
         if not isdir(self._final_file_path):
             os.makedirs(self._final_file_path)
         pool.submit_thread(self._split_worker, times)
@@ -330,7 +344,10 @@ class SCLib(_BaseLib):
         """ Combine Split files """
         file_name, ext = splitext(basename(self._path))
         self._final_file_path = join(dirname(self._path), file_name)
-        file_list = sorted(glob(self._final_file_path + f".{'[0-9]' * len(ext.lstrip('.'))}"))
+        file_list = sorted(
+            glob(
+                self._final_file_path +
+                f".{'[0-9]' * len(ext.lstrip('.'))}"))
         self._total = len(file_list)
         self._file_size = sum((os.stat(f_).st_size for f_ in file_list))
         pool.submit_thread(self._combine_worker, file_list)

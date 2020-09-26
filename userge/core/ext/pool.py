@@ -30,7 +30,8 @@ def submit_task(task: asyncio.coroutines.CoroWrapper) -> None:
     _ASYNC_QUEUE.put_nowait(task)
 
 
-def submit_thread(func: Callable[[Any], Any], *args: Any, **kwargs: Any) -> Future:
+def submit_thread(func: Callable[[Any], Any],
+                  *args: Any, **kwargs: Any) -> Future:
     """ submit thread to thread pool """
     return _THREAD_POOL.submit(func, *args, **kwargs)
 

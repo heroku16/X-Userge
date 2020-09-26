@@ -34,11 +34,13 @@ CHANNEL = userge.getCLogger(__name__)
 LOGO_PATH = 'resources/userge.png'
 
 
-@userge.on_cmd("rename", about={
-    'header': "Rename telegram files",
-    'flags': {'-d': "upload as document"},
-    'usage': "{tr}rename [flags] [new_name_with_extention] : reply to telegram media",
-    'examples': "{tr}rename -d test.mp4"}, del_pre=True, check_downpath=True)
+@userge.on_cmd("rename",
+               about={'header': "Rename telegram files",
+                      'flags': {'-d': "upload as document"},
+                      'usage': "{tr}rename [flags] [new_name_with_extention] : reply to telegram media",
+                      'examples': "{tr}rename -d test.mp4"},
+               del_pre=True,
+               check_downpath=True)
 async def rename_(message: Message):
     """ rename telegram files """
     if not message.filtered_input_str:
@@ -57,16 +59,20 @@ async def rename_(message: Message):
         else:
             await message.delete()
             dl_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dl_loc))
-            new_loc = os.path.join(Config.DOWN_PATH, message.filtered_input_str)
+            new_loc = os.path.join(
+                Config.DOWN_PATH,
+                message.filtered_input_str)
             os.rename(dl_loc, new_loc)
             await upload(message, Path(new_loc), True)
     else:
         await message.edit("Please read `.help rename`", del_in=5)
 
 
-@userge.on_cmd("convert", about={
-    'header': "Convert telegram files",
-    'usage': "reply {tr}convert to any media"}, del_pre=True, check_downpath=True)
+@userge.on_cmd("convert",
+               about={'header': "Convert telegram files",
+                      'usage': "reply {tr}convert to any media"},
+               del_pre=True,
+               check_downpath=True)
 async def convert_(message: Message):
     """ convert telegram files """
     await message.edit("`Trying to Convert ...`")
@@ -193,7 +199,9 @@ async def upload_path(message: Message, path: Path, del_path):
 
 
 async def upload(message: Message, path: Path, del_path: bool = False, extra: str = ''):
-    if path.name.endswith((".mkv", ".mp4", ".webm")) and ('d' not in message.flags):
+    if path.name.endswith(
+            (".mkv", ".mp4", ".webm")) and (
+            'd' not in message.flags):
         await vid_upload(message, path, del_path, extra)
     elif path.name.endswith((".mp3", ".flac", ".wav", ".m4a")) and ('d' not in message.flags):
         await audio_upload(message, path, del_path, extra)
