@@ -29,7 +29,7 @@ class Config:
     """ Configs to setup Userge """
     API_ID = int(os.environ.get("API_ID"))
     API_HASH = os.environ.get("API_HASH")
-    WORKERS = min(32, int(os.environ.get("WORKERS")) or os.cpu_count() + 4)
+    WORKERS = int(os.environ.get("WORKERS"))
     BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
     HU_STRING_SESSION = os.environ.get("HU_STRING_SESSION", None)
     OWNER_ID = int(os.environ.get("OWNER_ID", 0))
@@ -62,8 +62,7 @@ class Config:
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     HEROKU_GIT_URL = os.environ.get("HEROKU_GIT_URL", None)
     G_DRIVE_IS_TD = os.environ.get("G_DRIVE_IS_TD") == "true"
-    LOAD_UNOFFICIAL_PLUGINS = os.environ.get(
-        "LOAD_UNOFFICIAL_PLUGINS") == "true"
+    LOAD_UNOFFICIAL_PLUGINS = os.environ.get("LOAD_UNOFFICIAL_PLUGINS") == "true"
     THUMB_PATH = DOWN_PATH + "thumb_image.jpg"
     TMP_PATH = "userge/plugins/temp/"
     MAX_MESSAGE_LENGTH = 4096
@@ -104,15 +103,19 @@ except ValueError as v_e:
 
 
 def get_version() -> str:
-    """ get userge version """
+    """ get darkge version """
     ver = f"{versions.__major__}.{versions.__minor__}.{versions.__micro__}"
-    if "/usergeteam/userge" in Config.UPSTREAM_REPO.lower():
-        diff = list(_REPO.iter_commits(f'v{ver}..HEAD'))
-        if diff:
-            return f"{ver}-patch.{len(diff)}"
-    else:
-        diff = list(_REPO.iter_commits(
-            f'{Config.UPSTREAM_REMOTE}/master..HEAD'))
-        if diff:
-            return f"{ver}-custom.{len(diff)}"
+    try:
+        if "/DevTeady/DARKGE" in Config.UPSTREAM_REPO.lower():
+            diff = list(_REPO.iter_commits(f'v{ver}..HEAD'))
+            if diff:
+                return f"{ver}-[DGX].{len(diff)}"
+        else:
+            diff = list(_REPO.iter_commits(f'{Config.UPSTREAM_REMOTE}/master..HEAD'))
+            if diff:
+                return f"{ver}-fork-[DGX].{len(diff)}"
+    except:
+        error = "Update Repo"
+        return error
     return ver
+        
