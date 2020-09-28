@@ -20,7 +20,8 @@ LOGO_ID, LOGO_REF = None, None
     'header': "This command is just for fun"}, allow_channels=False)
 async def alive(message: Message):
     await message.delete()
-    output = f"""X-USERGE is running..\n
+    output = f"""USERGE is running and fully funtional, 
+All hail Pan Duh (@HIDEnSEEK0) \n
 ▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱\n
 **⌚ uptime** : `{userge.uptime}`
 **🛠️ version** : `{get_version()}`
