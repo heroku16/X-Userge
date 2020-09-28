@@ -111,9 +111,6 @@ async def kang_(message: Message):
                     pack += 1
                     packname = f"a{user.id}_by_userge_{pack}"
                     packnick = f"{custom_packnick} Vol.{pack}"
-                    if is_anim:
-                        packname += "_anim"
-                        packnick += " (Animated)"
                     await message.edit("`Switching to Pack " + str(pack) +
                                        " due to insufficient space`")
                     await conv.send_message(packname)
@@ -221,7 +218,7 @@ def resize_photo(photo: str) -> io.BytesIO:
     image = Image.open(photo)
     maxsize = 512
     scale = maxsize / max(image.width, image.height)
-    new_size = (int(image.width * scale), int(image.height * scale))
+    new_size = (int(image.width*scale), int(image.height*scale))
     image = image.resize(new_size, Image.LANCZOS)
     resized_photo = io.BytesIO()
     resized_photo.name = "sticker.png"

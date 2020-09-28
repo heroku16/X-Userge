@@ -11,6 +11,7 @@
 import os
 import time
 import asyncio
+from asyncio import sleep
 from re import sub
 from collections import deque
 from random import choice, getrandbits, randint
@@ -22,7 +23,7 @@ from cowpy import cow
 from userge import userge, Message
 
 
-@userge.on_cmd(r"(?:Kek|:/)$",
+@userge.on_cmd(r"(?::/)$",
                about={'header': "Check yourself, hint: `:/`"}, name='Kek',
                trigger='', allow_via_bot=False)
 async def kek_(message: Message):
@@ -33,7 +34,7 @@ async def kek_(message: Message):
         await message.try_to_edit(":" + kek[i % 2])
 
 
-@userge.on_cmd(r"(?:Lol|-_-)$",
+@userge.on_cmd(r"(?:-_-)$",
                about={'header': "Check yourself, hint: `-_-`"}, name='Lol',
                trigger='', allow_via_bot=False)
 async def lol_(message: Message):
@@ -46,7 +47,7 @@ async def lol_(message: Message):
         await message.try_to_edit(lol, parse_mode="html")
 
 
-@userge.on_cmd(r"(?:Fun|;_;)$",
+@userge.on_cmd(r"(?:;_;)$",
                about={'header': "Check yourself, hint: `;_;`"}, name="Fun",
                trigger='', allow_via_bot=False)
 async def fun_(message: Message):
@@ -139,20 +140,11 @@ async def hi_(message: Message):
         await message.edit(pay)
 
 
-@userge.on_cmd("react",
-               about={'header': "Make your userbot react to everything",
-                      'types': ['happy',
-                                'thinking',
-                                'waving',
-                                'wtf',
-                                'love',
-                                'confused',
-                                'dead',
-                                'sad',
-                                'dog'],
-                      'usage': "{tr}react [type]",
-                      'examples': ["{tr}react",
-                                   "{tr}react dead"]})
+@userge.on_cmd("react", about={
+    'header': "Make your userbot react to everything",
+    'types': ['happy', 'thinking', 'waving', 'wtf', 'love', 'confused', 'dead', 'sad', 'dog'],
+    'usage': "{tr}react [type]",
+    'examples': ["{tr}react", "{tr}react dead"]})
 async def react_(message: Message):
     """react"""
     type_ = message.input_str
@@ -349,13 +341,9 @@ async def slap_(message: Message):
             "`Can't slap this person, need to fetch some sticks and stones !!`")
 
 
-@userge.on_cmd("(yes|no|maybe|decide)$",
-               about={'header': "Make a quick decision",
-                      'examples': ['{tr}decide',
-                                   '{tr}yes',
-                                   '{tr}no',
-                                   '{tr}maybe']},
-               name="decide")
+@userge.on_cmd("(yes|no|maybe|decide)$", about={
+    'header': "Make a quick decision",
+    'examples': ['{tr}decide', '{tr}yes', '{tr}no', '{tr}maybe']}, name="decide")
 async def decide_(message: Message):
     """decide"""
     decision = message.matches[0].group(1).lower()
@@ -529,19 +517,9 @@ async def lfy_(message: Message):
     'usage': "{tr}scam\n{tr}scam [action]\n{tr}scam [time]\n{tr}scam [action] [time]"})
 async def scam_(message: Message):
     """scam"""
-    options = (
-        'typing',
-        'upload_photo',
-        'record_video',
-        'upload_video',
-        'record_audio',
-        'upload_audio',
-        'upload_document',
-        'find_location',
-        'record_video_note',
-        'upload_video_note',
-        'choose_contact',
-        'playing')
+    options = ('typing', 'upload_photo', 'record_video', 'upload_video', 'record_audio',
+               'upload_audio', 'upload_document', 'find_location', 'record_video_note',
+               'upload_video_note', 'choose_contact', 'playing')
     input_str = message.input_str
     args = input_str.split()
     if len(args) == 0:  # Let bot decide action and time
@@ -581,7 +559,164 @@ async def dice_gen(message: Message):
     random_emo = choice(DICE_EMO)
     await message.client.send_dice(message.chat.id, random_emo)
     await message.delete()
+                       
+                       
+@userge.on_cmd("emoji$", about={
+'header': "Multiple Animated Emojis"})
 
+async def emoji_func(message):
+
+    switch = await message.edit_text("🤔")
+    userge = "😆 😂 😳 😒 🧐 🤔 😍 😘 🥰 🥳 😌 😮 🙄 😐 😧 😔 😢 😡 😨 🎃 🤕 🤒 😷 🤧 🤢 🤮 👍 💝 ❤ 💋 😻 🎉 🎄 👛 💎 🙈 ☃ 📁 👻 💀 🦠 🚑"
+
+    for emoji in userge:
+    	try:
+    		await switch.edit(emoji)
+    		await sleep(2)
+    	except:
+    			pass
+                       
+                       
+@userge.on_cmd("bigoof$", about={'header': "Use when something is beyond just oof"})
+async def bigf_func(message):
+
+    animation_chars = [
+    "`┏━━━┓╋╋╋╋┏━━━┓ \n┃┏━┓┃╋╋╋╋┃┏━┓┃ \n┃┃╋┃┣┓┏┓┏┫┃╋┃┃ \n┃┃╋┃┃┗┛┗┛┃┃╋┃┃ \n┃┗━┛┣┓┏┓┏┫┗━┛┃ \n┗━━━┛┗┛┗┛┗━━━┛`",
+    "`╭━━━╮╱╱╱╭━╮ \n┃╭━╮┃╱╱╱┃╭╯ \n┃┃╱┃┣━━┳╯╰╮ \n┃┃╱┃┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃┃┃ \n╰━━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳━━┳━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┃╭╮┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃╰╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━┻━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━┻━━╯╰╯`",
+    "`╭━━━╮╱╱╱╱╱╱╭━╮ \n┃╭━╮┃╱╱╱╱╱╱┃╭╯ \n┃┃╱┃┣━━┳━━┳╯╰╮ \n┃┃╱┃┃╭╮┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃╰╯┃┃┃ \n╰━━━┻━━┻━━╯╰╯`"
+    ]
+    
+    for i in range(18):
+        await asyncio.sleep(0.3)
+        await message.edit(animation_chars[i % 9])
+               
+                       
+@userge.on_cmd("luvstory$", about={'header': "Get ready to witness a true love story that proves that love is the strongest force on Earth."})
+async def luv_story(message):
+    await message.edit("Starting asf")
+    animation_chars = [
+            "1 ❤️ love story",
+            "  😐             😕 \n/👕\         <👗\ \n 👖               /|",    
+            "  😉          😳 \n/👕\       /👗\ \n  👖            /|",
+            "  😚            😒 \n/👕\         <👗> \n  👖             /|",
+            "  😍         ☺️ \n/👕\      /👗\ \n  👖          /|",
+            "  😍           😍 \n/👕\       /👗\ \n  👖           /|",
+            "  😘     😊 \n /👕\/👗\ \n   👖   /|",
+            " 😳  😁 \n /|\ /👙\ \n /\     / |",    
+            "😈    /😰\ \n<|\      👙 \n /🍆    / |",
+            "😅 \n/(),✊😮 \n /\         _/\\/|",
+            "😎 \n/\\_,__😫 \n  //    //       \\",
+            "😖 \n/\\_,💦_😋  \n  //         //        \\",
+            "  😭      ☺️ \n  /|\   /(👶)\ \n  /!\      / \ ",
+            "The End 😂..."
+    ]
+    for i in range(0, 14):
+       await asyncio.sleep(2.7)
+       await message.edit(animation_chars[i % 14])                  
+
+
+@userge.on_cmd("earth$", about={'header': "Beautiful Earth Animation"})
+async def sun_(message: Message):
+    """earth"""
+    deq = deque(list("🌏🌍🌎🌎🌍🌏🌍🌎"))
+    try:
+        for _ in range(32):
+            await sleep(0.3)
+            await message.edit("".join(deq))
+            deq.rotate(1)
+    except Exception:
+        await message.delete()
+
+@userge.on_cmd("brain$", about={'header': "Dump your Brain into Trash"})
+async def brain_func(message):
+    animation_chars = [
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠         <(^_^ <)🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠       <(^_^ <)  🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠     <(^_^ <)    🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠   <(^_^ <)      🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠 <(^_^ <)        🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠<(^_^ <)         🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n(> ^_^)>🧠         🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n  (> ^_^)>🧠       🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n    (> ^_^)>🧠     🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n      (> ^_^)>🧠   🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n        (> ^_^)>🧠 🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n          (> ^_^)>🧠🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n           (> ^_^)>🗑",
+        "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n           <(^_^ <)🗑",
+    ]
+    for i in range(14):
+        await asyncio.sleep(0.3)
+        await message.edit(animation_chars[i % 14])
+
+@userge.on_cmd("hack$", about={'header': "kensar hacking animation"})
+async def hack_func(message):
+    user = await message.client.get_user_dict(message.from_user.id)
+    heckerman = user['mention']
+    animation_chars = [
+        "```Connecting To Private Server \\```",
+        "```Connecting To Private Server |```",
+        "```Connecting To Private Server /```",
+        "```Connecting To Private Server \\```",
+        "```Connection Established ```",
+        "```Target Selected```",
+        "```Backdoor Found In Target```",
+        "```Trying To Hack```",
+        "```Hacking... 0%\n▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 4%\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 8%\n██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 20%\n█████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 36%\n█████████▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 52%\n█████████████▒▒▒▒▒▒▒▒▒```",
+        "```Hacking... 70%\n█████████████████▒▒▒▒▒```",
+        "```Hacking... 88%\n█████████████████████▒```",
+        "```Hacking... 100%\n███████████████████████```",
+        "```Preparing Data... 1%\n▒██████████████████████```",
+        "```Preparing Data... 14%\n████▒██████████████████```",
+        "```Preparing Data... 30%\n████████▒██████████████```",
+        "```Preparing Data... 55%\n████████████▒██████████```",
+        "```Preparing Data... 72%\n████████████████▒██████```",
+        "```Preparing Data... 88%\n████████████████████▒██```",
+        "```Prepared Data... 100%\n███████████████████████```",
+        "```Uploading Data to Server... 12%\n███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Uploading Data to Server... 44%\n█████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒```",
+        "```Uploading Data to Server... 68%\n███████████████▒▒▒▒▒▒▒▒```",
+        "```Uploading Data to Server... 89%\n████████████████████▒▒▒```",
+        "```Uploaded Data to Server... 100%\n███████████████████████```",
+        "**User Data Upload Completed:** Target's User Data Stored "
+        "at `downloads/victim/telegram-authuser.data.sql`",
+    ]
+    hecked = (f"**Targeted Account Hacked**\n\n```Pay 69$ To``` {heckerman}``` "
+              "To Remove This Hack```")
+    max_ani = len(animation_chars)
+    for i in range(max_ani):
+        await asyncio.sleep(2)
+        await message.edit(animation_chars[i % max_ani])
+    await message.edit(hecked)
+
+@userge.on_cmd("kill$", about={'header': "Kill anybody With Full Power ;-)"})
+async def kill_func(message):
+    animation_chars = [
+        "killing...",
+        "Ｆｉｉｉｉｉｒｅ",
+        "(　･ิω･ิ)︻デ═一-->",
+        "------>_____________",
+        "--------->___⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠_______",
+        "-------------->_____",
+        "------------------->",
+        "------>;(^。^)ノ",
+        "(￣ー￣) DED",
+        "<b>Target killed successfully (´°̥̥̥̥̥̥̥̥ω°̥̥̥̥̥̥̥̥｀)</b>",
+    ]
+    for i in range(10):
+        await asyncio.sleep(0.6)
+        await message.edit(animation_chars[i % 10], parse_mode="html")
 
 THROW = ("throws", "flings", "chucks", "hurls")
 
@@ -590,72 +725,23 @@ HIT = ("hits", "whacks", "slaps", "smacks", "bashes")
 WHERE = ("in the chest", "on the head", "on the butt", "on the crotch")
 
 METOOSTR = (
-    "Me too thanks",
-    "Haha yes, me too",
-    "Same lol",
-    "Me irl",
-    "Same here",
-    "Haha yes",
-    "Me rn")
+    "Me too thanks", "Haha yes, me too", "Same lol", "Me irl", "Same here", "Haha yes", "Me rn")
 
 HELLOSTR = (
-    "Hi !",
-    "‘Ello, gov'nor!",
-    "What’s crackin’?",
-    "‘Sup, homeslice?",
-    "Howdy, howdy ,howdy!",
-    "Hello, who's there, I'm talking.",
-    "You know who this is.",
-    "Yo!",
-    "Whaddup.",
-    "Greetings and salutations!",
-    "Hello, sunshine!",
-    "Hey, howdy, hi!",
-    "What’s kickin’, little chicken?",
-    "Peek-a-boo!",
-    "Howdy-doody!",
-    "Hey there, freshman!",
-    "I come in peace!",
-    "Ahoy, matey!",
-    "Hiya!")
+    "Hi !", "‘Ello, gov'nor!", "What’s crackin’?", "‘Sup, homeslice?", "Howdy, howdy ,howdy!",
+    "Hello, who's there, I'm talking.", "You know who this is.", "Yo!", "Whaddup.",
+    "Greetings and salutations!", "Hello, sunshine!", "Hey, howdy, hi!",
+    "What’s kickin’, little chicken?", "Peek-a-boo!", "Howdy-doody!",
+    "Hey there, freshman!", "I come in peace!", "Ahoy, matey!", "Hiya!")
 
 ITEMS = (
-    "cast iron skillet",
-    "large trout",
-    "baseball bat",
-    "cricket bat",
-    "wooden cane",
-    "nail",
-    "printer",
-    "shovel",
-    "pair of trousers",
-    "CRT monitor",
-    "diamond sword",
-    "baguette",
-    "physics textbook",
-    "toaster",
-    "portrait of Richard Stallman",
-    "television",
-    "mau5head",
-    "five ton truck",
-    "roll of duct tape",
-    "book",
-    "laptop",
-    "old television",
-    "sack of rocks",
-    "rainbow trout",
-    "cobblestone block",
-    "lava bucket",
-    "rubber chicken",
-    "spiked bat",
-    "gold block",
-    "fire extinguisher",
-    "heavy rock",
-    "chunk of dirt",
-    "beehive",
-    "piece of rotten meat",
-    "bear",
-    "ton of bricks")
+    "cast iron skillet", "large trout", "baseball bat", "cricket bat", "wooden cane", "nail",
+    "printer", "shovel", "pair of trousers", "CRT monitor", "diamond sword", "baguette",
+    "physics textbook", "toaster", "portrait of Richard Stallman", "television", "mau5head",
+    "five ton truck", "roll of duct tape", "book", "laptop", "old television",
+    "sack of rocks", "rainbow trout", "cobblestone block", "lava bucket", "rubber chicken",
+    "spiked bat", "gold block", "fire extinguisher", "heavy rock", "chunk of dirt",
+    "beehive", "piece of rotten meat", "bear", "ton of bricks")
 
 RUNS_STR = (
     "Runs to Thanos..",
@@ -835,188 +921,34 @@ EMOJIS = (
 DICE_EMO = ("🎯", "🎲")
 
 ZALG_LIST = (
-    ("̖",
-     " ̗",
-     " ̘",
-     " ̙",
-     " ̜",
-     " ̝",
-     " ̞",
-     " ̟",
-     " ̠",
-     " ̤",
-     " ̥",
-     " ̦",
-     " ̩",
-     " ̪",
-     " ̫",
-     " ̬",
-     " ̭",
-     " ̮",
-     " ̯",
-     " ̰",
-     " ̱",
-     " ̲",
-     " ̳",
-     " ̹",
-     " ̺",
-     " ̻",
-     " ̼",
-     " ͅ",
-     " ͇",
-     " ͈",
-     " ͉",
-     " ͍",
-     " ͎",
-     " ͓",
-     " ͔",
-     " ͕",
-     " ͖",
-     " ͙",
-     " ͚",
-     " "),
-    (" ̍",
-     " ̎",
-     " ̄",
-     " ̅",
-     " ̿",
-     " ̑",
-     " ̆",
-     " ̐",
-     " ͒",
-     " ͗",
-     " ͑",
-     " ̇",
-     " ̈",
-     " ̊",
-     " ͂",
-     " ̓",
-     " ̈́",
-     " ͊",
-     " ͋",
-     " ͌",
-     " ̃",
-     " ̂",
-     " ̌",
-     " ͐",
-     " ́",
-     " ̋",
-     " ̏",
-     " ̽",
-     " ̉",
-     " ͣ",
-     " ͤ",
-     " ͥ",
-     " ͦ",
-     " ͧ",
-     " ͨ",
-     " ͩ",
-     " ͪ",
-     " ͫ",
-     " ͬ",
-     " ͭ",
-     " ͮ",
-     " ͯ",
-     " ̾",
-     " ͛",
-     " ͆",
-     " ̚"),
-    (" ̕",
-     " ̛",
-     " ̀",
-     " ́",
-     " ͘",
-     " ̡",
-     " ̢",
-     " ̧",
-     " ̨",
-     " ̴",
-     " ̵",
-     " ̶",
-     " ͜",
-     " ͝",
-     " ͞",
-     " ͟",
-     " ͠",
-     " ͢",
-     " ̸",
-     " ̷",
-     " ͡"))
+    ("̖", " ̗", " ̘", " ̙", " ̜", " ̝", " ̞", " ̟", " ̠", " ̤", " ̥", " ̦", " ̩", " ̪", " ̫",
+     " ̬", " ̭", " ̮", " ̯", " ̰", " ̱", " ̲", " ̳", " ̹", " ̺", " ̻", " ̼", " ͅ", " ͇",
+     " ͈", " ͉", " ͍", " ͎", " ͓", " ͔", " ͕", " ͖", " ͙", " ͚", " "),
+
+    (" ̍", " ̎", " ̄", " ̅", " ̿", " ̑", " ̆", " ̐", " ͒", " ͗", " ͑", " ̇", " ̈", " ̊",
+     " ͂", " ̓", " ̈́", " ͊", " ͋", " ͌", " ̃", " ̂", " ̌", " ͐", " ́", " ̋", " ̏", " ̽",
+     " ̉", " ͣ", " ͤ", " ͥ", " ͦ", " ͧ", " ͨ", " ͩ", " ͪ", " ͫ", " ͬ", " ͭ", " ͮ", " ͯ",
+     " ̾", " ͛", " ͆", " ̚"),
+
+    (" ̕", " ̛", " ̀", " ́", " ͘", " ̡", " ̢", " ̧", " ̨", " ̴", " ̵", " ̶", " ͜",
+     " ͝", " ͞", " ͟", " ͠", " ͢", " ̸", " ̷", " ͡")
+)
 
 UWUS = (
-    "(・`ω´・)",
-    ";;w;;",
-    "owo",
-    "UwU",
-    ">w<",
-    "^w^",
-    r"\(^o\) (/o^)/",
-    "( ^ _ ^)∠☆",
-    "(ô_ô)",
-    "~:o",
-    ";-;",
-    "(*^*)",
-    "(>_",
-    "(♥_♥)",
-    "*(^O^)*",
-    "((+_+))")
+    "(・`ω´・)", ";;w;;", "owo", "UwU", ">w<", "^w^", r"\(^o\) (/o^)/", "( ^ _ ^)∠☆", "(ô_ô)",
+    "~:o", ";-;", "(*^*)", "(>_", "(♥_♥)", "*(^O^)*", "((+_+))")
 
 SHGS = (
-    "┐(´д｀)┌",
-    "┐(´～｀)┌",
-    "┐(´ー｀)┌",
-    "┐(￣ヘ￣)┌",
-    "╮(╯∀╰)╭",
-    "╮(╯_╰)╭",
-    "┐(´д`)┌",
-    "┐(´∀｀)┌",
-    "ʅ(́◡◝)ʃ",
-    "┐(ﾟ～ﾟ)┌",
-    "┐('д')┌",
-    "┐(‘～`;)┌",
-    "ヘ(´－｀;)ヘ",
-    "┐( -“-)┌",
-    "ʅ（´◔౪◔）ʃ",
-    "ヽ(゜～゜o)ノ",
-    "ヽ(~～~ )ノ",
-    "┐(~ー~;)┌",
-    "┐(-。ー;)┌",
-    r"¯\_(ツ)_/¯",
-    r"¯\_(⊙_ʖ⊙)_/¯",
-    r"¯\_༼ ಥ ‿ ಥ ༽_/¯",
-    "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ")
+    "┐(´д｀)┌", "┐(´～｀)┌", "┐(´ー｀)┌", "┐(￣ヘ￣)┌", "╮(╯∀╰)╭", "╮(╯_╰)╭", "┐(´д`)┌", "┐(´∀｀)┌",
+    "ʅ(́◡◝)ʃ", "┐(ﾟ～ﾟ)┌", "┐('д')┌", "┐(‘～`;)┌", "ヘ(´－｀;)ヘ", "┐( -“-)┌", "ʅ（´◔౪◔）ʃ",
+    "ヽ(゜～゜o)ノ", "ヽ(~～~ )ノ", "┐(~ー~;)┌", "┐(-。ー;)┌", r"¯\_(ツ)_/¯", r"¯\_(⊙_ʖ⊙)_/¯",
+    r"¯\_༼ ಥ ‿ ಥ ༽_/¯", "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ")
 
 CRI = (
-    "أ‿أ",
-    "╥﹏╥",
-    "(;﹏;)",
-    "(ToT)",
-    "(┳Д┳)",
-    "(ಥ﹏ಥ)",
-    "（；へ：）",
-    "(T＿T)",
-    "（πーπ）",
-    "(Ｔ▽Ｔ)",
-    "(⋟﹏⋞)",
-    "（ｉДｉ）",
-    "(´Д⊂ヽ",
-    "(;Д;)",
-    "（>﹏<）",
-    "(TдT)",
-    "(つ﹏⊂)",
-    "༼☯﹏☯༽",
-    "(ノ﹏ヽ)",
-    "(ノAヽ)",
-    "(╥_╥)",
-    "(T⌓T)",
-    "(༎ຶ⌑༎ຶ)",
-    "(☍﹏⁰)｡",
-    "(ಥ_ʖಥ)",
-    "(つд⊂)",
-    "(≖͞_≖̥)",
-    "(இ﹏இ`｡)",
-    "༼ಢ_ಢ༽",
-    "༼ ༎ຶ ෴ ༎ຶ༽")
+    "أ‿أ", "╥﹏╥", "(;﹏;)", "(ToT)", "(┳Д┳)", "(ಥ﹏ಥ)", "（；へ：）", "(T＿T)", "（πーπ）", "(Ｔ▽Ｔ)",
+    "(⋟﹏⋞)", "（ｉДｉ）", "(´Д⊂ヽ", "(;Д;)", "（>﹏<）", "(TдT)", "(つ﹏⊂)", "༼☯﹏☯༽", "(ノ﹏ヽ)",
+    "(ノAヽ)", "(╥_╥)", "(T⌓T)", "(༎ຶ⌑༎ຶ)", "(☍﹏⁰)｡", "(ಥ_ʖಥ)", "(つд⊂)", "(≖͞_≖̥)", "(இ﹏இ`｡)",
+    "༼ಢ_ಢ༽", "༼ ༎ຶ ෴ ༎ຶ༽")
 
 FACEREACTS = (
     "ʘ‿ʘ", "ヾ(-_- )ゞ", "(っ˘ڡ˘ς)", "(´ж｀ς)", "( ಠ ʖ̯ ಠ)", "(° ͜ʖ͡°)╭∩╮", "(ᵟຶ︵ ᵟຶ)", "(งツ)ว",
@@ -1036,46 +968,19 @@ FACEREACTS = (
     r"¯\_(ツ)_/¯", "( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)", "ʕ•ᴥ•ʔ", "(▀̿Ĺ̯▀̿ ̿)", "(ง ͠° ͟ل͜ ͡°)ง",
     "༼ つ ◕_◕ ༽つ", "ಠ_ಠ", "(☞ ͡° ͜ʖ ͡°)☞", "¯_༼ ି ~ ି ༽_/¯", "c༼ ͡° ͜ʖ ͡° ༽⊃")
 
-HAPPY = (
-    "( ͡° ͜ʖ ͡°)",
-    "(ʘ‿ʘ)",
-    "(✿´‿`)",
-    "=͟͟͞͞٩(๑☉ᴗ☉)੭ु⁾⁾",
-    "(*⌒▽⌒*)θ～♪",
-    "°˖✧◝(⁰▿⁰)◜✧˖°",
-    "✌(-‿-)✌",
-    "⌒°(❛ᴗ❛)°⌒",
-    "(ﾟ<|＼(･ω･)／|>ﾟ)",
-    "ヾ(o✪‿✪o)ｼ")
+HAPPY = ("( ͡° ͜ʖ ͡°)", "(ʘ‿ʘ)", "(✿´‿`)", "=͟͟͞͞٩(๑☉ᴗ☉)੭ु⁾⁾", "(*⌒▽⌒*)θ～♪",
+         "°˖✧◝(⁰▿⁰)◜✧˖°", "✌(-‿-)✌", "⌒°(❛ᴗ❛)°⌒", "(ﾟ<|＼(･ω･)／|>ﾟ)", "ヾ(o✪‿✪o)ｼ")
 
 THINKING = ("(҂⌣̀_⌣́)", "（；¬＿¬)", "(-｡-;", "┌[ O ʖ̯ O ]┐", "〳 ͡° Ĺ̯ ͡° 〵")
 
 WAVING = (
-    "(ノ^∇^)",
-    "(;-_-)/",
-    "@(o・ェ・)@ノ",
-    "ヾ(＾-＾)ノ",
-    "ヾ(◍’౪`◍)ﾉﾞ♡",
-    "(ό‿ὸ)ﾉ",
-    "(ヾ(´・ω・｀)")
+    "(ノ^∇^)", "(;-_-)/", "@(o・ェ・)@ノ", "ヾ(＾-＾)ノ", "ヾ(◍’౪`◍)ﾉﾞ♡", "(ό‿ὸ)ﾉ", "(ヾ(´・ω・｀)")
 
-WTF = (
-    "༎ຶ‿༎ຶ",
-    "(‿ˠ‿)",
-    "╰U╯☜(◉ɷ◉ )",
-    "(;´༎ຶ益༎ຶ`)♡",
-    "╭∩╮(︶ε︶*)chu",
-    "( ＾◡＾)っ (‿|‿)")
+WTF = ("༎ຶ‿༎ຶ", "(‿ˠ‿)", "╰U╯☜(◉ɷ◉ )", "(;´༎ຶ益༎ຶ`)♡", "╭∩╮(︶ε︶*)chu", "( ＾◡＾)っ (‿|‿)")
 
 LOVE = ("乂❤‿❤乂", "(｡♥‿♥｡)", "( ͡~ ͜ʖ ͡°)", "໒( ♥ ◡ ♥ )७", "༼♥ل͜♥༽")
 
-CONFUSED = (
-    "(・_・ヾ",
-    "｢(ﾟﾍﾟ)",
-    "﴾͡๏̯͡๏﴿",
-    "(￣■￣;)!?",
-    "▐ ˵ ͠° (oo) °͠ ˵ ▐",
-    "(-_-)ゞ゛")
+CONFUSED = ("(・_・ヾ", "｢(ﾟﾍﾟ)", "﴾͡๏̯͡๏﴿", "(￣■￣;)!?", "▐ ˵ ͠° (oo) °͠ ˵ ▐", "(-_-)ゞ゛")
 
 DEAD = ("(✖╭╮✖)", "✖‿✖", "(+_+)", "(✖﹏✖)", "∑(✘Д✘๑)")
 
